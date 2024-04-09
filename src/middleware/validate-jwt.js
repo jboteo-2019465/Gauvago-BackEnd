@@ -20,6 +20,17 @@ export const validateJwt = async(req, res, next)=>{
     }
 }
 
+export const isHotel = async(req, res, next)=>{
+    try{
+        let { user } = req
+        if(!user || user.role !== 'ADMINHOTEL') return res.status(403).send({message: `You dont have access | username: ${user.username}`})
+        next()
+    }catch(err){
+        console.error(err)
+        return res.status(403).send({message: 'Unauthorized role'})
+    }
+}
+
 export const isAdmin = async(req, res, next)=>{
     try{
         let { user } = req

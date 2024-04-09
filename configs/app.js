@@ -9,6 +9,7 @@ import { config } from "dotenv"
 import hotelRoutes from '../src/hotel/hotel.routes.js'
 import roomRoutes from '../src/room/room.routes.js'
 import categoryRoutes from '../src/category/category.routes.js'
+import userRoutes from '../src/user/user.routes.js'
 
 const app = express()
     config();
@@ -24,6 +25,7 @@ const app = express()
      app.use('/hotel', hotelRoutes)
      app.use('/room', roomRoutes)
      app.use('/category', categoryRoutes)
+     app.use('/user', userRoutes)
 
     export const initServer = ()=>{
         app.listen(port)
