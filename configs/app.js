@@ -4,10 +4,11 @@
 import express from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
+import cors from 'cors'
 import { config } from "dotenv"
-
-
-
+import hotelRoutes from '../src/hotel/hotel.routes.js'
+import roomRoutes from '../src/room/room.routes.js'
+import categoryRoutes from '../src/category/category.routes.js'
 
 const app = express()
     config();
@@ -17,6 +18,12 @@ const app = express()
     app.use(express.json())
     app.use(helmet())
     app.use(morgan('dev'))
+    app.use(cors())
+
+    //Declaracion de rutas
+     app.use('/hotel', hotelRoutes)
+     app.use('/room', roomRoutes)
+     app.use('/category', categoryRoutes)
 
     export const initServer = ()=>{
         app.listen(port)
