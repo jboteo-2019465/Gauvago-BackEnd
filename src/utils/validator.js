@@ -45,3 +45,22 @@ export const checkUpdate = (data, userId) => {
         return true
     }
 }  
+
+
+//update category
+
+export const checkUpdateC = (data, categoriesId) => {
+    if (categoriesId) {
+        if (Object.keys(data).length === 0) {
+            return false;
+        }
+        for (const key in data) {
+            if (data[key] === '') {
+                return false;
+            }
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
