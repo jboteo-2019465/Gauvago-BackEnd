@@ -3,7 +3,6 @@
 import Category from './category.model.js'
 import {checkUpdateC} from '../utils/validator.js'
 
-
 export const defaultCategory = async (req, res) => {
     try {
         const categoryExist = await Category.findOne({ nameCategory: 'default' })
@@ -23,7 +22,6 @@ export const defaultCategory = async (req, res) => {
     }
 }
 
-
 export const registerC = async (req, res) => {
     try {
       let data = req.body;
@@ -37,8 +35,7 @@ export const registerC = async (req, res) => {
     } catch (err) {
       return res.status(500).send({ message: 'Error registering the Category', err: err });
     }
-  };
-
+  }
 
   export const obtener = async (req, res) => {
     try {
@@ -53,7 +50,7 @@ export const registerC = async (req, res) => {
 export const searchC = async (req, res) => {
     try {
         let { search } = req.body;
-        let category = await Category.find({ nameCategory: search });
+        let category = await Category.find({ nameCategory: { $regex: search, $options: 'i' } });
 
         if (!category || category.length === 0) {
             return res.status(404).send({ message: 'Category not found' });

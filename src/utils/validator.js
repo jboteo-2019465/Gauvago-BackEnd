@@ -87,3 +87,21 @@ export const checkUpdateC = (data, categoriesId) => {
         return false;
     }
 }
+
+//update Hotel
+
+export const checkUpdateH = (data, hotelId) => {
+    if (hotelId) {
+        if (Object.keys(data).length === 0) {
+            return false;
+        }
+        for (const key in data) {
+            if (data[key] === '') {
+                return false;
+            }
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
