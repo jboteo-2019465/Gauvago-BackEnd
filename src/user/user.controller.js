@@ -1,7 +1,9 @@
 'use strict'
 
 import User from './user.model.js'
-import { encrypt, checkPassword} from '../utils/validator.js'
+import { checkUpdate } from '../utils/validator.js'
+import jwt from 'jsonwebtoken'
+import { encrypt, checkPassword, checkOldPassword, hashPassword} from '../utils/validator.js'
 import {generateJwt} from '../utils/jwt.js'
 
 export const test = (req, res) =>{
@@ -128,4 +130,46 @@ export const login = async (req, res) => {
         return res.status(500).send({ message: 'Error to login' })
     }
 
+}
+
+// update
+export const updateU = async (req, res) => {
+    try {
+        let { id } = req.params
+        let data = req.body
+        let update = checkUpdate(data, id)
+        let secretKey = process.env.SECRET_KEY
+        let { authorization } = req.headers
+        let { uid } = jwt.verify(authorization, secretKey)
+        const { oldPassword, newPassword } = data
+        data.user = uid
+
+        let user = await User.findOne({ _id: data.user })
+        if (!user) return res.status(404).send({ message: 'User not found' })
+
+        if (oldPassword) {
+            const isPasswordCorrect = await checkOldPassword(oldPassword, user.password)
+            if (!isPasswordCorrect) return res.status(401).send({ message: 'Incorrect old password' })
+        }
+
+        if (newPassword) {
+            const hashedPassword = await hashPassword(newPassword)
+            data.password = hashedPassword
+        }
+
+        if (!update) return res.status(400).send({ message: 'Have submitted some data that cannot be updated or missing data' })
+
+        let updatedUser = await User.findOneAndUpdate(
+            { _id: id },
+            data,
+            { new: true }
+        )
+
+        if (!updatedUser) return res.status(401).send({ message: 'User not found and not updated' })
+        return res.send({ message: 'Updated user', updatedUser })
+    
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send({ message: 'Error updating' })
+    }
 }

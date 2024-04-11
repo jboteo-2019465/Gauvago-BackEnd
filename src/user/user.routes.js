@@ -1,5 +1,5 @@
 import express from 'express'
-import { login, registerAd, registerCl, registerHt, test } from './user.controller.js'
+import { login, registerAd, registerCl, registerHt, test, updateU } from './user.controller.js'
 import { isAdmin, isHotel, validateJwt } from '../middleware/validate-jwt.js'
 
 const api =  express.Router()
@@ -8,6 +8,9 @@ const api =  express.Router()
 api.get('/test', test)
 api.post('/login', login)
 api.post('/register', registerCl)
+
+//accesos privados
+api.put('/update/:id', [validateJwt] , updateU)
 
 //accesos adminhotel
 api.post('/registetHt', [validateJwt, isHotel],registerHt)
