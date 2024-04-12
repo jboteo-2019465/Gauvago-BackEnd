@@ -135,32 +135,33 @@ export const login = async (req, res) => {
 // update
 export const updateU = async (req, res) => {
     try {
-        let { id } = req.params
         let data = req.body
-        let update = checkUpdate(data, id)
+        let update = checkUpdate(data)
         let secretKey = process.env.SECRET_KEY
         let { authorization } = req.headers
-        let { uid } = jwt.verify(authorization, secretKey)
-        const { oldPassword, newPassword } = data
-        data.user = uid
-
-        let user = await User.findOne({ _id: data.user })
+        let { uid } = jwt.verify(authorization, secretKey)// extrae del token el uid para no ponerlo en la url
+        const { oldPassword, newPassword } = data // se agreagan 2 campos por si se quiere cambiar la contraseña que ponga la antigua
+        
+        let user = await User.findOne({ _id: uid }) // verifica si el uid del token es valido
         if (!user) return res.status(404).send({ message: 'User not found' })
 
+        // verifica si la contraseña antigua es correcta
         if (oldPassword) {
             const isPasswordCorrect = await checkOldPassword(oldPassword, user.password)
             if (!isPasswordCorrect) return res.status(401).send({ message: 'Incorrect old password' })
         }
 
+        // hace el cambio de la nueva contraseña con su encriptación
         if (newPassword) {
             const hashedPassword = await hashPassword(newPassword)
             data.password = hashedPassword
         }
 
+        // verficacion del update si los datos que quiere actualizar son los que requiere el campo
         if (!update) return res.status(400).send({ message: 'Have submitted some data that cannot be updated or missing data' })
 
         let updatedUser = await User.findOneAndUpdate(
-            { _id: id },
+            { _id: uid },
             data,
             { new: true }
         )
@@ -171,5 +172,35 @@ export const updateU = async (req, res) => {
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: 'Error updating' })
+    }
+}
+
+
+// delete
+export const deleteU = async (req, res) => {
+    try {
+        let secretKey = process.env.SECRET_KEY
+        let { authorization } = req.headers
+        let { uid } = jwt.verify(authorization, secretKey)// extrae del token el uid para no ponerlo en la url
+        let { confirmation } = req.body // Agrega un campo de confirmación 
+
+        // verifica si el campo confirmation es no que de el siguiente mensaje y que no ejecute nada
+        if (confirmation === 'no') {
+            return res.status(200).send({ message: 'Deletion cancelled by user' })
+        }
+         // verifica si el campo confirmation es si que continue con el proceso de eliminacion al igual que si se pone otra palabra que no sea
+         // si o no que tire el mensaje que solo se puede poner si o no
+        if (confirmation !== 'yes') {
+            return res.status(400).send({ message: 'Please confirm the deletion by providing confirmation: "yes or no"' })
+        }
+
+        let deletedUser = await User.findOneAndDelete({ _id: uid })
+
+        if (!deletedUser) return res.status(404).send({ message: 'Account not found and not deleted' })
+        
+        return res.send({ message: `Account with username ${deletedUser.username} deleted successfully` })
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send({ message: 'Error deleting account' })
     }
 }
