@@ -15,7 +15,7 @@ export const registerR = async (req, res) => {
 
   export const obtener = async (req, res) => {
     try {
-        let data = await Room.find().populate('category').populate('hotel', 'nameHotel');
+        let data = await Room.find().populate('category', ).populate('hotel', 'nameHotel');
         return res.send({ data })
     } catch (error) {
         console.error(error)
@@ -34,5 +34,21 @@ export const deleteR = async (req, res) => {
   } catch (err) {
       console.error(err);
       return res.status(500).send({ message: 'Error deleting Room' });
+  }
+}
+
+export const searchR = async (req, res) => {
+  try {
+      let { search } = req.body;
+      let room = await Room.find({ nameRoom: { $regex: search, $options: 'i' } });
+
+      if (!room || room.length === 0) {
+          return res.status(404).send({ message: 'Room not found' });
+      } 
+
+      return res.send({ message: 'Room found', room });
+  } catch (err) {
+      console.error(err);
+      return res.status(500).send({ message: 'Error searching Room' });
   }
 }

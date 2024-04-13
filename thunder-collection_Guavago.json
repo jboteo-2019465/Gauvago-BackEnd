@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Guavago",
-    "dateExported": "2024-04-11T02:25:05.265Z",
+    "dateExported": "2024-04-12T00:16:06.781Z",
     "version": "1.1",
     "folders": [
         {
@@ -323,7 +323,7 @@
             "method": "POST",
             "sortNum": 130000,
             "created": "2024-04-11T01:22:36.719Z",
-            "modified": "2024-04-11T02:16:15.206Z",
+            "modified": "2024-04-12T00:03:31.350Z",
             "headers": [],
             "params": [],
             "body": {
@@ -347,15 +347,15 @@
             "colId": "86f0748c-bf92-41c0-bac8-b1270554f08f",
             "containerId": "c151630d-eb04-40d0-9f35-c460e70912cd",
             "name": "updateU",
-            "url": "localhost:2622/user/update/66173b3257c8644cdadb5b3e",
+            "url": "localhost:2622/user/update",
             "method": "PUT",
             "sortNum": 140000,
             "created": "2024-04-11T01:31:30.785Z",
-            "modified": "2024-04-11T02:16:00.677Z",
+            "modified": "2024-04-11T23:52:41.378Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjE3M2IzMjU3Yzg2NDRjZGFkYjViM2UiLCJ1c2VybmFtZSI6InBhbmZpbG8iLCJuYW1lIjoiZGllZ28iLCJzdXJuYW1lIjoiemFiYWxhIiwicm9sZSI6IkNMSUVOVCIsImlhdCI6MTcxMjgwMTM1OSwiZXhwIjoxNzEyODEyMTU5fQ.arb7M33mvyGfCmhsbUDQE19cq4F9vYFispvMFpHjuJU"
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjE3M2IzMjU3Yzg2NDRjZGFkYjViM2UiLCJ1c2VybmFtZSI6InBhbmZpbG8iLCJuYW1lIjoiZGllZ28iLCJzdXJuYW1lIjoiemFiYWxhIiwicm9sZSI6IkNMSUVOVCIsImlhdCI6MTcxMjg3OTQ4MiwiZXhwIjoxNzEyODkwMjgyfQ.7KwpUT8bRuyRPz9TOJcnx3hr4rBZ-X4m_M4WpVd5XyM"
                 }
             ],
             "params": [],
@@ -365,15 +365,44 @@
                 "form": [
                     {
                         "name": "name",
-                        "value": "diego"
+                        "value": "Axel"
                     },
                     {
                         "name": "oldPassword",
-                        "value": "87654321"
+                        "value": "12345678"
                     },
                     {
                         "name": "newPassword",
-                        "value": "12345678"
+                        "value": "87654321"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "597eec1e-7979-4c0e-9bc0-a59c19925010",
+            "colId": "86f0748c-bf92-41c0-bac8-b1270554f08f",
+            "containerId": "c151630d-eb04-40d0-9f35-c460e70912cd",
+            "name": "deleteU",
+            "url": "localhost:2622/user/delete",
+            "method": "DELETE",
+            "sortNum": 150000,
+            "created": "2024-04-11T23:59:38.486Z",
+            "modified": "2024-04-12T00:05:58.651Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjE4N2FjNGYwZjlhMjkyNjcxY2E2YmUiLCJ1c2VybmFtZSI6InBhbmZpbG8iLCJuYW1lIjoiZGllZ28iLCJzdXJuYW1lIjoiemFiYWxhIiwicm9sZSI6IkNMSUVOVCIsImlhdCI6MTcxMjg4MDMyNiwiZXhwIjoxNzEyODkxMTI2fQ.lpHuVasY19ixQsVkpgbYNqmP3_CDR2VEvPdmWzGr0uc"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "confirmation",
+                        "value": "yes"
                     }
                 ]
             },
