@@ -6,7 +6,7 @@ import Hotel from '../hotel/hotel.model.js'
 
 
 import jwt from 'jsonwebtoken'
-import { checkUpdate } from '../utils/validator'
+
 
 //Registro de un evento
 export const registroE = async(req, res)=>{

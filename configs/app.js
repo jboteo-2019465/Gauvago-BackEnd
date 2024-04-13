@@ -11,6 +11,9 @@ import roomRoutes from '../src/room/room.routes.js'
 import categoryRoutes from '../src/category/category.routes.js'
 import userRoutes from '../src/user/user.routes.js'
 import departmentRoutes from '../src/department/department.routes.js'
+import eventRoutes from '../src/events/event.routes.js'
+
+//Inicializacion
 
 const app = express()
     config();
@@ -28,6 +31,7 @@ const app = express()
      app.use('/category', categoryRoutes)
      app.use('/user', userRoutes)
      app.use('/department', departmentRoutes)
+     app.use('/event', eventRoutes)
 
     export const initServer = ()=>{
         app.listen(port)
