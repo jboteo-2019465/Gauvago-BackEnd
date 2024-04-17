@@ -11,6 +11,7 @@ export const test = (req, res) =>{
 export const registerH = async (req, res) => {
     try {
       let data = req.body;
+      
       const existingHotel = await Hotel.findOne({
         $or: [
           { nameHotel: data.nameHotel},
@@ -45,6 +46,7 @@ export const updateH = async(req, res)=>{
   try {
       let {id} = req.params
       let data = req.body
+      
       if (!checkUpdateH(data, id)) {
         return res.status(400).send({message: 'Have submitted some data that cannot be updated or missing data'});
       }
