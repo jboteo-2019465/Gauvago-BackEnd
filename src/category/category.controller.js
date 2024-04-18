@@ -8,11 +8,10 @@ export const defaultCategory = async (req, res) => {
         const categoryExist = await Category.findOne({ nameCategory: 'default' })
 
         if (categoryExist) {
-            return console.log('room estandar')
+            return console.log('Category defaul')
         }
         let data = {
             nameCategory: 'default',
-
         }
         let category = new Category(data)
         await category.save()
