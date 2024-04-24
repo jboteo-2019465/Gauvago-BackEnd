@@ -8,7 +8,7 @@ export const defaultCategory = async (req, res) => {
         const categoryExist = await Category.findOne({ nameCategory: 'default' })
 
         if (categoryExist) {
-            return console.log('Category defaul')
+            return console.log('Category default', categoryExist)
         }
         let data = {
             nameCategory: 'default',

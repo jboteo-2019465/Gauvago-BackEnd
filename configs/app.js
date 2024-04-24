@@ -12,6 +12,7 @@ import categoryRoutes from '../src/category/category.routes.js'
 import userRoutes from '../src/user/user.routes.js'
 import departmentRoutes from '../src/department/department.routes.js'
 import eventRoutes from '../src/events/event.routes.js'
+import reviewRoutes from '../src/reviews/review.routes.js'
 
 //Inicializacion
 
@@ -32,6 +33,7 @@ const app = express()
      app.use('/user', userRoutes)
      app.use('/department', departmentRoutes)
      app.use('/event', eventRoutes)
+     app.use('/review', reviewRoutes)
 
     export const initServer = ()=>{
         app.listen(port)
