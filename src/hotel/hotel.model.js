@@ -33,7 +33,8 @@ const hotelSchema = Schema({
 
     stars: {
         type: Number,
-        enum: [1, 2, 3, 4, 5],
+        minLength: 1,
+        maxLength: 5,
         required: true,
         default: 5
       }
