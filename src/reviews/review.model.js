@@ -12,6 +12,7 @@ const reviewSchema = Schema({
         required: true,
         minLength: 1,
         maxLength: 5,
+        enum: [1, 2, 3, 4, 5],
         required: true,
     },
     created: {
@@ -21,6 +22,11 @@ const reviewSchema = Schema({
     User: {
         type: Schema.Types.ObjectId,
         ref: 'user'
+    },
+    hotel: {
+        type: Schema.Types.ObjectId,
+        ref: 'hotel'
+        
     }
 },{
     versionKey: false
