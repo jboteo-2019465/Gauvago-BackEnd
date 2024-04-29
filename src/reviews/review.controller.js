@@ -17,6 +17,10 @@ export const register = async (req, res) => {
         let hotel = await Hotel.findById(review.hotel);
         
         if(hotel){
+            let existingReview = await Review.findOne({hotel: hotel._id, user: user._id});
+            if (existingReview) {
+                return res.status(400).send({message: 'You have already reviewed this hotel'});
+            }
             hotel.stars = parseFloat((parseFloat(hotel.stars) + parseFloat(data.rating)) / 2);
             await hotel.save();
             console.log(hotel.stars)
