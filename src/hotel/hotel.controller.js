@@ -3,11 +3,14 @@
 import Hotel from './hotel.model.js'
 import {checkUpdateH} from '../utils/validator.js'
 
+
+//Test de hotel
 export const test = (req, res) =>{
     console.log('test panoli')
     return res.send({message: 'test'})
 }
 
+//Registra el hotel
 export const registerH = async (req, res) => {
     try {
       let data = req.body;
@@ -31,6 +34,7 @@ export const registerH = async (req, res) => {
   };
 
 
+  //Lista el hotel
   export const obtener = async (req, res) => {
     try {
         let data = await Hotel.find()
@@ -42,6 +46,7 @@ export const registerH = async (req, res) => {
 }
 
 
+//Actualiza el hotel
 export const updateH = async(req, res)=>{
   try {
       let {id} = req.params
@@ -64,7 +69,7 @@ export const updateH = async(req, res)=>{
   }
 }
 
-
+//Elimina el hotel
 export const deleteH = async (req, res) => {
   try {
       const { id } = req.params;
@@ -82,7 +87,7 @@ export const deleteH = async (req, res) => {
   }
 }
 
-
+//Busca el hotel por parametros
 export const searchH = async (req, res) => {
   try {
       let { search } = req.body;

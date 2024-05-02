@@ -3,6 +3,8 @@
 import {checkUpdateH} from '../utils/validator.js'
 import Room from './room.model.js'
 
+
+//registra una habitacion
 export const registerR = async (req, res) => {
   try {
     let data = req.body;
@@ -14,6 +16,8 @@ export const registerR = async (req, res) => {
   }
 };
 
+
+//lista las habitaciones
 export const obtener = async (req, res) => {
   try {
     let data = await Room.find().populate('category',).populate('hotel', 'nameHotel');
@@ -24,6 +28,7 @@ export const obtener = async (req, res) => {
   }
 }
 
+//elimina una habitacion
 export const deleteR = async (req, res) => {
   try {
     const { id } = req.params;
@@ -38,6 +43,7 @@ export const deleteR = async (req, res) => {
   }
 }
 
+//busca por parametros las habitaciones
 export const searchR = async (req, res) => {
   try {
     let { search } = req.body;
@@ -54,6 +60,8 @@ export const searchR = async (req, res) => {
   }
 }
 
+
+//actualiza la habitacion
 export const update = async (req, res) => {
   try {
     let { id } = req.params

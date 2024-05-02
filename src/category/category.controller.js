@@ -3,6 +3,8 @@
 import Category from './category.model.js'
 import {checkUpdateC} from '../utils/validator.js'
 
+
+// Crea la categoria defualt
 export const defaultCategory = async (req, res) => {
     try {
         const categoryExist = await Category.findOne({ nameCategory: 'default' })
@@ -21,6 +23,7 @@ export const defaultCategory = async (req, res) => {
     }
 }
 
+//registra la categoria
 export const registerC = async (req, res) => {
     try {
       let data = req.body;
@@ -36,6 +39,8 @@ export const registerC = async (req, res) => {
     }
   }
 
+
+  //Lista las categorias que ya estan registradas
   export const obtener = async (req, res) => {
     try {
         let data = await Category.find()
@@ -46,6 +51,8 @@ export const registerC = async (req, res) => {
     }
 }
 
+
+//Busca la categoria por parametros
 export const searchC = async (req, res) => {
     try {
         let { search } = req.body;
@@ -62,6 +69,8 @@ export const searchC = async (req, res) => {
     }
 }
 
+
+//Actualiza la categoria
 export const updateC = async(req, res)=>{
     try {
         let {id} = req.params
@@ -82,6 +91,8 @@ export const updateC = async(req, res)=>{
     }
 }
 
+
+//Elimina la categoria
 export const deleteC = async (req, res) => {
     try {
         const { id } = req.params;
