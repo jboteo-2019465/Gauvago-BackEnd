@@ -70,24 +70,27 @@ export const register = async (req, res) => {
         let user = req.user;
         data.userR = user._id;
         let review = new Review(data);
-        let findUser = await Review.findOne({userR: user._id})
-        let findHotel = await Review.findOne({hotelR: data.hotelR})
+        let findUser = await Review.findOne({ userR: user._id })
+        let findHotel = await Review.findOne({ hotelR: data.hotelR })
+
+        //console.log(data.userR + " " + findUser.userR + " " + data.hotelR + " " + findHotel.hotelR)
         console.log(findUser)
         console.log(findHotel)
+        //console.log(data.userR)
         let hotel = await Hotel.findById(data.hotelR);
         //console.log(hotel)
 
-        //if ((data.user == findUser._id.toString()) && (data.hotel == findHotel._id.toString())) {
-            //return res.status(400).send({ message: 'The review has NOT been registered' });
-        //}
-        //else {
+        if ((data.userR.toString() != findUser.userR.toString()) && (data.hotelR.toString() != findHotel.hotelR.toString())) {
             hotel.stars = parseFloat((parseFloat(hotel.stars) + parseFloat(data.rating)) / 2);
             hotel.save();
             console.log(hotel.stars)
             await review.save();
-            res.send({ message: 'The review has been registered' });
-            return console.log(data.userR + " " + findUser.userR + " " + data.hotelR + " " + findHotel.hotelR)
-        //}
+            console.log(data.userR + " " + findUser.userR + " " + data.hotelR + " " + findHotel.hotelR)
+            return res.send({ message: 'The review has been registered' });
+        }
+        else {
+            return res.status(400).send({ message: 'The review has NOT been registered' });
+        }
 
     } catch (err) {
         console.error(err);
