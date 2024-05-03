@@ -79,12 +79,12 @@ export const register = async (req, res) => {
         let hotel = await Hotel.findById(data.hotelR);
         //console.log(hotel)
 
-        if ((data.userR.toString() != findUser.userR.toString()) && (data.hotelR.toString() != findHotel.hotelR.toString())) {
+        if (!findUser && !findHotel) {
             hotel.stars = parseFloat((parseFloat(hotel.stars) + parseFloat(data.rating)) / 2);
             hotel.save();
             console.log(hotel.stars)
             await review.save();
-            console.log(data.userR + " " + findUser.userR + " " + data.hotelR + " " + findHotel.hotelR)
+            //console.log(data.userR + " " + findUser.userR + " " + data.hotelR + " " + findHotel.hotelR)
             return res.send({ message: 'The review has been registered' });
         }
         else {
