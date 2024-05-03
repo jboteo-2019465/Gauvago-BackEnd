@@ -89,7 +89,6 @@ export const checkUpdateC = (data, categoriesId) => {
 }
 
 //update Hotel
-
 export const checkUpdateH = (data, hotelId) => {
     if (hotelId) {
         if (Object.keys(data).length === 0) {
@@ -102,6 +101,23 @@ export const checkUpdateH = (data, hotelId) => {
         }
         return true;
     } else {
+        return false;
+    }
+}
+
+//Update review
+export const checkUpdateRW = (data, reviewId)=>{
+    if(reviewId){
+        if(Object.keys(data).length === 0){
+            return false;
+        }
+        for(const key in data){
+            if(data[key] === ''){
+                return false;
+            }
+        }
+        return true;
+    }else{
         return false;
     }
 }
