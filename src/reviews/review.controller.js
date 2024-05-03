@@ -125,3 +125,25 @@ export const searchRW = async (req, res)=>{
         return res.status(500).send({message: 'Error searching review'})
     }
 }
+
+//Elimina una review
+
+export const deleteRw = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedReview = await Review.findByIdAndDelete(id)
+        if (!deletedReview) {
+            return res.status(404).send({ message: 'Review not found' })
+        }
+        return res.status(200).send({ message: 'Review deleted successfully' })
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send({ message: 'Error deleting review' });
+    }
+};
+
+//Update review
+
+export const updateR = async(req,res)=>{
+    
+}
