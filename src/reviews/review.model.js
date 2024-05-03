@@ -19,11 +19,11 @@ const reviewSchema = Schema({
         type: Date,
         default: Date.now
     },
-    User: {
+    userR: {
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
-    hotel: {
+    hotelR: {
         type: Schema.Types.ObjectId,
         ref: 'hotel'
         
