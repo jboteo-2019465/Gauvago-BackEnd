@@ -80,7 +80,7 @@ export const register = async (req, res) => {
         let hotel = await Hotel.findById(data.hotelR);
         //console.log(hotel)
 
-        if (!findUser && !findHotel) {
+        if (!findUser || !findHotel) {
             hotel.stars = parseFloat((parseFloat(hotel.stars) + parseFloat(data.rating)) / 2);
             hotel.save();
             console.log(hotel.stars)
@@ -145,5 +145,11 @@ export const deleteRw = async (req, res) => {
 //Update review
 
 export const updateR = async(req,res)=>{
-    
+    try {
+        
+    } catch (error) {
+        console.error(err)
+        return res.status(500).send({message: 'xd'})
+        
+    }
 }
