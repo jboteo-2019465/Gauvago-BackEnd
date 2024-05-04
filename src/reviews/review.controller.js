@@ -66,10 +66,10 @@ export const test = (req, res) => {
 
 export const register = async (req, res) => {
     try {
-        let data = req.body;
-        let user = req.user;
-        data.userR = user._id;
-        let review = new Review(data);
+        let data = req.body
+        let user = req.user
+        data.userR = user._id
+        let review = new Review(data)
         let findUser = await Review.findOne({ userR: user._id })
         let findHotel = await Review.findOne({ hotelR: data.hotelR })
 
@@ -77,23 +77,28 @@ export const register = async (req, res) => {
         console.log(findUser)
         console.log(findHotel)
         //console.log(data.userR)
-        let hotel = await Hotel.findById(data.hotelR);
+        let hotel = await Hotel.findById(data.hotelR)
         //console.log(hotel)
-
+        
         if (!findUser || !findHotel) {
-            hotel.stars = parseFloat((parseFloat(hotel.stars) + parseFloat(data.rating)) / 2);
-            hotel.save();
-            console.log(hotel.stars)
+            const newStars = parseFloat((parseFloat(hotel.stars) + parseFloat(data.rating)) / 2)
+            
+            if (newStars > 5) {
+                return res.status(400).send({ message: 'You cannot give more than 5 stars' })
+            }
+
+            hotel.stars = newStars;
+            await hotel.save();
             await review.save();
             //console.log(data.userR + " " + findUser.userR + " " + data.hotelR + " " + findHotel.hotelR)
             return res.send({ message: 'The review has been registered' });
-        }
-        else {
-            return res.status(400).send({ message: 'The review has NOT been registered' });
+        } else {
+            return res.status(400).send({ message: 'The review has NOT been registered' })
         }
 
     } catch (err) {
         console.error(err);
+        return res.status(500).send({ message: 'Internal server error' });
     }
 }
 // listar review
@@ -143,13 +148,50 @@ export const deleteRw = async (req, res) => {
 };
 
 //Update review
-
-export const updateR = async(req,res)=>{
+export const updateR = async (req, res) => {
     try {
-        
+        const { id } = req.params
+        let data = req.body
+
+        if (!checkUpdateRW(data, id)) {
+            return res.status(400).send({ message: 'Invalid data' })
+        }
+
+        // esto hace que el usuario no cambie el id del hotel
+        if (data.hotelR && data.hotelR !== id) {
+            return res.status(400).send({ message: 'You cannot change the hotel ID' })
+        }
+
+        delete data.hotelR;
+        if (data.rating < 1 || data.rating > 5) {
+            return res.status(400).send({ message: 'The number of stars must be between 1 and 5' })
+        }
+
+        let updateReview = await Review.findOneAndUpdate(
+            { _id: id },
+            data,
+            { new: true }
+        )
+
+        if (!updateReview) return res.status(401).send({ message: 'Review not found' })
+
+        // actualiza las estrellas
+        const findHotel = await Hotel.findById(updateReview.hotelR)
+        if (!findHotel) {
+            return res.status(404).send({ message: 'Hotel not found' })
+        }
+
+        // esto calcula la resea del hotel
+        const newStars = parseFloat((parseFloat(findHotel.stars) + parseFloat(data.rating)) / 2)
+        if (newStars > 5) {
+            return res.status(400).send({ message: 'You cannot give more than 5 stars' })
+        }
+        findHotel.stars = newStars
+        await findHotel.save()
+
+        return res.send({ message: 'Review updated', updateReview })
     } catch (error) {
-        console.error(err)
-        return res.status(500).send({message: 'xd'})
-        
+        console.error(error);
+        return res.status(500).send({ message: 'Internal server error' })
     }
 }
