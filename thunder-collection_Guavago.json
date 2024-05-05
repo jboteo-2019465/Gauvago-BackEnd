@@ -1,0 +1,476 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Guavago",
+    "collectionId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+    "dateExported": "2024-04-27T05:37:54.549Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "6d2d3e5e-2426-4557-9c83-7a85c13fd3a5",
+            "name": "hotel",
+            "containerId": "",
+            "created": "2024-04-27T05:06:31.564Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "ceb43f52-95ff-42eb-9805-31d1cedd5148",
+            "name": "Room",
+            "containerId": "",
+            "created": "2024-04-27T05:06:31.566Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "a82272f1-68f8-4092-84b2-2a3af8548c3a",
+            "name": "category",
+            "containerId": "",
+            "created": "2024-04-27T05:06:31.567Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "ea632c32-9231-4278-8007-eb5743bb6f23",
+            "name": "user",
+            "containerId": "",
+            "created": "2024-04-27T05:06:31.568Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "6a55e50a-49c7-4435-856e-67ecf24347d4",
+            "name": "reviews",
+            "containerId": "",
+            "created": "2024-04-27T05:07:34.455Z",
+            "sortNum": 50000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "c4b67a0e-90c5-43e5-b5d4-146f10084552",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "6d2d3e5e-2426-4557-9c83-7a85c13fd3a5",
+            "name": "test",
+            "url": "/hotel/test",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-04-27T05:06:31.565Z",
+            "modified": "2024-04-27T05:14:58.946Z",
+            "headers": []
+        },
+        {
+            "_id": "035abc05-3501-483d-8ab9-6ba816db166e",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "ea632c32-9231-4278-8007-eb5743bb6f23",
+            "name": "registerA",
+            "url": "/user/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-04-27T05:06:31.579Z",
+            "modified": "2024-04-27T05:14:45.975Z",
+            "headers": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Carlos"
+                    },
+                    {
+                        "name": "surname",
+                        "value": "de la Cruz"
+                    },
+                    {
+                        "name": "username",
+                        "value": "cdlc"
+                    },
+                    {
+                        "name": "password",
+                        "value": "1"
+                    },
+                    {
+                        "name": "email",
+                        "value": "cdelacruz@gmail.com"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "60ee79f6-5219-4b6f-a508-8733fef8730f",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "6d2d3e5e-2426-4557-9c83-7a85c13fd3a5",
+            "name": "Register",
+            "url": "/hotel/register",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-04-27T05:06:31.567Z",
+            "modified": "2024-04-27T05:15:04.783Z",
+            "headers": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "nameHotel",
+                        "value": "Hoteaaa"
+                    },
+                    {
+                        "name": "description",
+                        "value": "incluye wifi para el minecraftaaa"
+                    },
+                    {
+                        "name": "address",
+                        "value": "zona 2, cayalaaaaaa"
+                    },
+                    {
+                        "name": "phoneHotel",
+                        "value": "12345687"
+                    },
+                    {
+                        "name": "email",
+                        "value": "HotelPanfilo@gmail.com"
+                    },
+                    {
+                        "name": "stars",
+                        "value": "5",
+                        "isDisabled": true
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "97c2c2af-a484-4024-aae3-2c1cf1693f12",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "ceb43f52-95ff-42eb-9805-31d1cedd5148",
+            "name": "register",
+            "url": "/room/registerR",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-04-27T05:06:31.568Z",
+            "modified": "2024-04-27T05:15:40.914Z",
+            "headers": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "nameRoom",
+                        "value": "nose"
+                    },
+                    {
+                        "name": "description",
+                        "value": "incluye wifi, aire acondicionado, etc.."
+                    },
+                    {
+                        "name": "category",
+                        "value": "6614bf20657e7e03917903b7"
+                    },
+                    {
+                        "name": "price",
+                        "value": "1200"
+                    },
+                    {
+                        "name": "hotel",
+                        "value": "6614b406bcf0d6af16e81262"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "b10845ec-fd08-4d56-b9a3-e90c9f164146",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "a82272f1-68f8-4092-84b2-2a3af8548c3a",
+            "name": "register",
+            "url": "/category/registerC",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-04-27T05:06:31.569Z",
+            "modified": "2024-04-27T05:16:09.031Z",
+            "headers": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "nameCategory",
+                        "value": "Economica"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "a7931721-586e-46f2-aa9a-e53dfa25f9cb",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "a82272f1-68f8-4092-84b2-2a3af8548c3a",
+            "name": "obtener",
+            "url": "/category/obtener",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-04-27T05:06:31.570Z",
+            "modified": "2024-04-27T05:16:16.607Z",
+            "headers": []
+        },
+        {
+            "_id": "20f2bd74-8be4-4444-a5ff-de67d2893f3c",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "6d2d3e5e-2426-4557-9c83-7a85c13fd3a5",
+            "name": "obtener",
+            "url": "/hotel/obtener",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2024-04-27T05:06:31.573Z",
+            "modified": "2024-04-27T05:15:34.343Z",
+            "headers": []
+        },
+        {
+            "_id": "cac58bc1-0247-47a7-b215-9b7efa41a59b",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "ceb43f52-95ff-42eb-9805-31d1cedd5148",
+            "name": "obtener",
+            "url": "/room/obtener",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-04-27T05:06:31.574Z",
+            "modified": "2024-04-27T05:15:52.519Z",
+            "headers": []
+        },
+        {
+            "_id": "765f27e4-58c1-4045-91f3-a4e165862a4d",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "ceb43f52-95ff-42eb-9805-31d1cedd5148",
+            "name": "Delete",
+            "url": "/room/deleteR/6614c190f9637e3e17e7cc31",
+            "method": "DELETE",
+            "sortNum": 80000,
+            "created": "2024-04-27T05:06:31.575Z",
+            "modified": "2024-04-27T05:15:59.983Z",
+            "headers": []
+        },
+        {
+            "_id": "c48f90cb-8b6e-45cd-9200-27aa71585bef",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "a82272f1-68f8-4092-84b2-2a3af8548c3a",
+            "name": "update",
+            "url": "/category/updateC/6614c5814e86e072030797ea",
+            "method": "PUT",
+            "sortNum": 90000,
+            "created": "2024-04-27T05:06:31.576Z",
+            "modified": "2024-04-27T05:16:22.881Z",
+            "headers": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "nameCategory",
+                        "value": "estandar"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "700cd21f-97d9-45fb-bc37-3a282f3caabb",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "a82272f1-68f8-4092-84b2-2a3af8548c3a",
+            "name": "delete",
+            "url": "/category/deleteC/6614c5814e86e072030797ea",
+            "method": "DELETE",
+            "sortNum": 110000,
+            "created": "2024-04-27T05:06:31.580Z",
+            "modified": "2024-04-27T05:16:29.513Z",
+            "headers": []
+        },
+        {
+            "_id": "eea3e99b-b634-42d7-a66e-0084df0cdd45",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "a82272f1-68f8-4092-84b2-2a3af8548c3a",
+            "name": "search",
+            "url": "/category/searchC",
+            "method": "POST",
+            "sortNum": 120000,
+            "created": "2024-04-27T05:06:31.581Z",
+            "modified": "2024-04-27T05:16:33.970Z",
+            "headers": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "search",
+                        "value": "default"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "943e72a6-fece-456b-a93f-18f0a3b3a0dc",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "ea632c32-9231-4278-8007-eb5743bb6f23",
+            "name": "login",
+            "url": "/user/login",
+            "method": "POST",
+            "sortNum": 130000,
+            "created": "2024-04-27T05:06:31.582Z",
+            "modified": "2024-04-27T05:16:45.897Z",
+            "headers": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "cdlc"
+                    },
+                    {
+                        "name": "password",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "4120734f-2fbd-42d9-88c1-17e817140f87",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "ea632c32-9231-4278-8007-eb5743bb6f23",
+            "name": "updateU",
+            "url": "/user/update",
+            "method": "PUT",
+            "sortNum": 140000,
+            "created": "2024-04-27T05:06:31.583Z",
+            "modified": "2024-04-27T05:17:37.556Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjJjODg5MGZjMDVkNDgzYmRjMTYyNjQiLCJ1c2VybmFtZSI6ImNkbGMiLCJuYW1lIjoiQ2FybG9zIiwic3VybmFtZSI6ImRlIGxhIENydXoiLCJyb2xlIjoiQ0xJRU5UIiwiaWF0IjoxNzE0MTk1MDA1LCJleHAiOjE3MTQyMDU4MDV9.SFSM3cU3z0I0D-ik4WfmpFrrQDTNV_uU_uVkQ3DeI0A"
+                }
+            ],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Carlos"
+                    },
+                    {
+                        "name": "oldPassword",
+                        "value": "1"
+                    },
+                    {
+                        "name": "newPassword",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "090221fb-ad00-481c-a858-6e006e9ecaf7",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "ea632c32-9231-4278-8007-eb5743bb6f23",
+            "name": "deleteU",
+            "url": "/user/delete",
+            "method": "DELETE",
+            "sortNum": 150000,
+            "created": "2024-04-27T05:06:31.584Z",
+            "modified": "2024-04-27T05:17:48.394Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjE4N2FjNGYwZjlhMjkyNjcxY2E2YmUiLCJ1c2VybmFtZSI6InBhbmZpbG8iLCJuYW1lIjoiZGllZ28iLCJzdXJuYW1lIjoiemFiYWxhIiwicm9sZSI6IkNMSUVOVCIsImlhdCI6MTcxMjg4MDMyNiwiZXhwIjoxNzEyODkxMTI2fQ.lpHuVasY19ixQsVkpgbYNqmP3_CDR2VEvPdmWzGr0uc"
+                }
+            ],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "confirmation",
+                        "value": "yes"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "fb30995c-3875-4f55-b25b-139ac87eb972",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "6d2d3e5e-2426-4557-9c83-7a85c13fd3a5",
+            "name": "update",
+            "url": "/hotel/update/6617f9ad90eec1fb5db36c80",
+            "method": "PUT",
+            "sortNum": 160000,
+            "created": "2024-04-27T05:06:31.585Z",
+            "modified": "2024-04-27T05:15:37.922Z",
+            "headers": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "nameHotel",
+                        "value": "oaaa"
+                    },
+                    {
+                        "name": "description",
+                        "value": "aaaa"
+                    },
+                    {
+                        "name": "address",
+                        "value": "aaaa"
+                    },
+                    {
+                        "name": "phoneHotel",
+                        "value": "2474959"
+                    },
+                    {
+                        "name": "email",
+                        "value": "oa"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "6ecd5775-2c28-4ff9-9d25-9bd488fd882e",
+            "colId": "1eb1f9fe-883c-46c1-879d-96aca0b94774",
+            "containerId": "6a55e50a-49c7-4435-856e-67ecf24347d4",
+            "name": "register review",
+            "url": "/review/register",
+            "method": "POST",
+            "sortNum": 190000,
+            "created": "2024-04-27T05:08:28.468Z",
+            "modified": "2024-04-27T05:37:02.065Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjJjODg5MGZjMDVkNDgzYmRjMTYyNjQiLCJ1c2VybmFtZSI6ImNkbGMiLCJuYW1lIjoiQ2FybG9zIiwic3VybmFtZSI6ImRlIGxhIENydXoiLCJyb2xlIjoiQ0xJRU5UIiwiaWF0IjoxNzE0MTk1MDA1LCJleHAiOjE3MTQyMDU4MDV9.SFSM3cU3z0I0D-ik4WfmpFrrQDTNV_uU_uVkQ3DeI0A"
+                }
+            ],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "review",
+                        "value": "no dieron papitas"
+                    },
+                    {
+                        "name": "rating",
+                        "value": "1"
+                    },
+                    {
+                        "name": "hotel",
+                        "value": "661f6b1749bbb9992127644b"
+                    }
+                ]
+            }
+        }
+    ],
+    "settings": {
+        "headers": [
+            {
+                "name": "Authorization",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjJjODg5MGZjMDVkNDgzYmRjMTYyNjQiLCJ1c2VybmFtZSI6ImNkbGMiLCJuYW1lIjoiQ2FybG9zIiwic3VybmFtZSI6ImRlIGxhIENydXoiLCJyb2xlIjoiQ0xJRU5UIiwiaWF0IjoxNzE0MTk1MDA1LCJleHAiOjE3MTQyMDU4MDV9.SFSM3cU3z0I0D-ik4WfmpFrrQDTNV_uU_uVkQ3DeI0A"
+            }
+        ],
+        "options": {
+            "baseUrl": "localhost:2622"
+        }
+    },
+    "ref": "B3Ve3v3sjHuATVgX4-4slTv4H6yHjFd8l9yE064ktADc8Lwu7NFy0EmQfay8ppUSCt8mNVfaQbcEeP8jsV-fGQ"
+}
