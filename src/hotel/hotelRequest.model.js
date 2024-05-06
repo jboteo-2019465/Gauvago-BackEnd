@@ -43,4 +43,4 @@ const hotelRequestSchema = Schema({
     versionKey: false
 })
 
-export default model('hotel', hotelRequestSchema)
+export default model('hotelRequest', hotelRequestSchema)
