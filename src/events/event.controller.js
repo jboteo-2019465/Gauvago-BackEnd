@@ -31,7 +31,7 @@ export const registroE = async(req, res)=>{
     }
 }
 
-//Ver los eventos del usuario
+//Ver los eventos del usuario ADMIN
 export const viewMyEvents = async(req, res)=>{
     try {
         let secretKey = process.env.SECRET_KEY

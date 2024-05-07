@@ -12,8 +12,8 @@ api.get('/test', test)
 api.post('/register', [validateJwt], register)
 api.get('/obtener', obtener)
 api.post('/search', searchRW)
-api.delete('/delete/:id', deleteRw)
-api.put('/updateR/:id', updateR)
+api.delete('/delete/:id',[validateJwt], deleteRw)
+api.put('/updateR/:id',[validateJwt], updateR)
 
 // exportar la instancia de enrutador como la exportación predeterminada
 export default api

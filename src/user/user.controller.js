@@ -11,6 +11,29 @@ export const test = (req, res) =>{
     return res.send({message:'Test is running'})
 }
 
+export const defaultUser = async () => {
+    try {
+        const userExist = await User.findOne({ username: 'default' })
+ 
+        if (userExist) {
+            return console.log('The default user already exists')
+        }
+        let data = {
+            name: 'Default',
+            surname: 'default',
+            username: 'default',
+            email: 'default@gmail.com',
+            password: await encrypt('1'),
+            role: 'ADMIN'
+        }
+        let user = new User(data)
+        await user.save()
+        return console.log('Updated user', data)
+    } catch (err) {
+        console.error(err)
+    }
+}
+
 //registro Admin
 export const registerAd = async (req, res) => {
     try {

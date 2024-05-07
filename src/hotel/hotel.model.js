@@ -1,24 +1,27 @@
-import  { Schema, model} from "mongoose"
+import {
+    Schema,
+    model
+} from "mongoose"
 
 const hotelSchema = Schema({
 
-    nameHotel:{
+    nameHotel: {
         type: String,
         required: true
     },
 
-    description:{
+    description: {
         type: String,
         required: true
     },
 
-    address:{
+    address: {
         type: String,
         required: true,
         unique: true
     },
 
-    phoneHotel:{
+    phoneHotel: {
         type: String,
         minLength: 8,
         maxLength: 8,
@@ -26,7 +29,7 @@ const hotelSchema = Schema({
         unique: true
     },
 
-    email:{
+    email: {
         type: String,
         required: true
     },
@@ -37,9 +40,15 @@ const hotelSchema = Schema({
         maxLength: 5,
         required: true,
         default: 5
-      }
-    
-},{
+    },
+
+    admin: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+    }
+
+}, {
     versionKey: false
 })
 

@@ -88,6 +88,7 @@ export const register = async (req, res) => {
             }
 
             hotel.stars = newStars;
+            
             await hotel.save();
             await review.save();
             //console.log(data.userR + " " + findUser.userR + " " + data.hotelR + " " + findHotel.hotelR)

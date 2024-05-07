@@ -45,7 +45,7 @@ export const isAdmin = async(req, res, next)=>{
 export const isAdmin_AdminHotel = async(req, res, next)=>{
     try{
         let { user } = req
-        if(!user || user.role !== 'ADMIN' || user.role !== 'ADMIN') return res.status(403).send({message: `You dont have access | username: ${user.username}`})
+        if(!user || user.role !== 'ADMIN' || user.role !== 'ADMINHOTEL') return res.status(403).send({message: `You dont have access | username: ${user.username}`})
         next()
     }catch(err){
         console.error(err)
