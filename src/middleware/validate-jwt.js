@@ -13,7 +13,7 @@ export const validateJwt = async(req, res, next)=>{
         let user = await User.findOne({_id: uid})
         if(!user) return res.status(404).send({message: 'User not found - Unauthorized'})
         req.user = user
-        next()
+        next()    
     }catch(err){
         console.error(err)
         return res.status(401).send({message: 'Invalid token'})
@@ -51,4 +51,4 @@ export const isAdmin_AdminHotel = async(req, res, next)=>{
         console.error(err)
         return res.status(403).send({message: 'Unauthorized role'})
     }
-}
+}   

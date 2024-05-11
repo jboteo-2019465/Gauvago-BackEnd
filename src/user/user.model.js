@@ -15,7 +15,7 @@ const userSchema = Schema({
         unique: true,
         lowercase: true,
         required: true
-    },
+    }, 
     password:{
         type: String,
         minLength: [8, 'Password must be 8 characters'],
@@ -31,7 +31,7 @@ const userSchema = Schema({
         uppercase: true,
         enum: ['ADMIN', 'CLIENT','ADMINHOTEL'],
         required: true
-    }
+    } 
 })
 
 export default model('user', userSchema)
