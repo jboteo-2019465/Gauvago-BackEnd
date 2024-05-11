@@ -5,7 +5,7 @@ import { isAdmin, isAdmin_AdminHotel, isHotel, validateJwt } from "../middleware
 const api = Router();
 
 api.get('/test', test)
-api.post('/register', [isAdmin, validateJwt],registerHotel)
+api.post('/register', [isAdmin,validateJwt], registerHotel)
 api.post('/request/register',validateJwt, registerHotelRequest)
 api.get('/obtener', obtener)
 api.put('/update/:id', [isHotel, validateJwt], updateH)

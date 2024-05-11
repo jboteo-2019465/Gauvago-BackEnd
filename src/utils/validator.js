@@ -121,3 +121,20 @@ export const checkUpdateRW = (data, reviewId)=>{
         return false;
     }
 }
+
+//Update reservation
+export const checkUpdateReserva = (data, reserId)=>{
+    if(reserId){
+        if(Object.keys(data).length === 0){
+            return false;
+        }
+        for(const key in data){
+            if(data[key] === ''){
+                return false;
+            }
+        }
+        return true;
+    }else{
+        return false;
+    }
+}

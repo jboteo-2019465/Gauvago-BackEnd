@@ -8,6 +8,7 @@ import Room from './room.model.js'
 export const registerR = async (req, res) => {
   try {
     let data = req.body;
+    data.available = 'DISPONIBLE'
     let room = new Room(data);
     await room.save()
     return res.send({ message: '¡The room has been successfully registered!' });

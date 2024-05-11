@@ -20,6 +20,12 @@ const hotelSchema = Schema({
     hotel:{
         type: Schema.Types.ObjectId,
         ref: 'hotel'
+    },
+    available:{
+        type: String,
+        required: true,
+        enum:['DISPONIBLE', 'NODISPONIBLE'],
+        uppercase: true
     }
 },{
     versionKey: false
