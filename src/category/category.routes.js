@@ -10,7 +10,7 @@ api.post('/searchC', searchC)
 
 
 //Solo el administrador
-api.post('/registerC',[isAdmin, validateJwt], registerC)
-api.put('/updateC/:id',[isAdmin, validateJwt], updateC)
-api.delete('/deleteC/:id', [isAdmin,validateJwt], deleteC)
+api.post('/registerC',[validateJwt, isAdmin], registerC)
+api.put('/updateC/:id',[validateJwt, isAdmin], updateC)
+api.delete('/deleteC/:id', [validateJwt, isAdmin], deleteC)
 export default api

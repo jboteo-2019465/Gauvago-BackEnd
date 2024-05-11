@@ -1,8 +1,9 @@
 import express from 'express'
 import { deleteD, obtener, registerD, searchD, updateD } from './department.controller.js'
+import { isAdmin, validateJwt } from '../middleware/validate-jwt.js';
 
 const api = express.Router();
-api.post('/registerD', registerD)
+api.post('/registerD', [validateJwt, isAdmin],registerD)
 api.get('/obtener', obtener)
 api.put('/updateD/:id', updateD)
 api.delete('/deleteD/:nameDepa', deleteD)
