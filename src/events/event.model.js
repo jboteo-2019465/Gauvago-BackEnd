@@ -10,9 +10,9 @@ const eventSchema = Schema({
         type:String,
         required:true
     },
-    hotel:{
+    room:{
         type: Schema.Types.ObjectId,
-        ref: 'hotel',
+        ref: 'room',
         required: true
     },
     date:{

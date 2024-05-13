@@ -4,7 +4,7 @@ import Department from './department.model.js'
 import {checkUpdate} from '../utils/validator.js'
 
 
-//Registro de departamentos
+//Registro de departamentos por defecto
 export const registerD = async (req, res)=>{
     try {
         let data = req.body;
