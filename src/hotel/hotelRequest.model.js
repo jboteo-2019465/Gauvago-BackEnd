@@ -41,7 +41,6 @@ const hotelRequestSchema = Schema({
         required: true,
         default: 5
     },
-    
     applicant: {
         type: Schema.Types.ObjectId,
         ref: 'user',
