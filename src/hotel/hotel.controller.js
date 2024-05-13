@@ -118,6 +118,24 @@ export const registerHotel = async (req, res) => {
   }
 };
 
+export const denyHotel = async (req, res) => {
+  try {
+    let data = req.body;
+
+    let hotelRequest = await HotelRequest.findOne({
+      nameHotel: data.nameHotel
+    });
+    await HotelRequest.findByIdAndDelete(hotelRequest._id);
+    console.log("hotel denied")
+    return res.send({ message: `Application with name ${hotelRequest.nameHotel} deleted successfully` });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({
+      message: 'Error denying the hotel',
+      err: err
+    });
+  }
+}
 
 //Lista el hotel
 export const obtener = async (req, res) => {
