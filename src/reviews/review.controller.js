@@ -163,10 +163,12 @@ export const updateR = async (req, res) => {
             return res.status(400).send({ message: 'You cannot change the hotel ID' })
         }
 
-        delete data.hotelR;
+         data.hotelR;
         if (data.rating < 1 || data.rating > 5) {
             return res.status(400).send({ message: 'The number of stars must be between 1 and 5' })
         }
+
+
 
         let updateReview = await Review.findOneAndUpdate(
             { _id: id },
@@ -182,7 +184,7 @@ export const updateR = async (req, res) => {
             return res.status(404).send({ message: 'Hotel not found' })
         }
 
-        // esto calcula la resea del hotel
+        // esto calcula la reseña del hotel
         const newStars = parseFloat((parseFloat(findHotel.stars) + parseFloat(data.rating)) / 2)
         if (newStars > 5) {
             return res.status(400).send({ message: 'You cannot give more than 5 stars' })

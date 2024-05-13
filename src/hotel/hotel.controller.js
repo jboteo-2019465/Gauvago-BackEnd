@@ -2,6 +2,8 @@
 
 import Hotel from './hotel.model.js'
 import HotelRequest from './hotelRequest.model.js'
+import User from '../user/user.model.js'
+
 import {
   checkUpdateH
 } from '../utils/validator.js'
@@ -74,7 +76,7 @@ export const getHotelRequest = async (req, res) => {
 export const registerHotel = async (req, res) => {
   try {
     let data = req.body;
-    
+
     let hotelRequest = await HotelRequest.findOne({
       nameHotel: data.nameHotel
     });
@@ -85,9 +87,19 @@ export const registerHotel = async (req, res) => {
         address: hotelRequest.address,
         phoneHotel: hotelRequest.phoneHotel,
         email: hotelRequest.email,
-        admin: req.user.id 
+        admin: req.user.id
       });
+      
       await hotel.save();
+      if (req.user.role != "ADMIN") {
+
+        let newAdmin = await User.findByIdAndUpdate({
+          _id: req.user.id
+        }, {
+          role: "ADMINHOTEL"
+        })
+      }
+
       await HotelRequest.findByIdAndDelete(hotelRequest._id);
       return res.send({
         message: '¡The hotel has been successfully registered!'
