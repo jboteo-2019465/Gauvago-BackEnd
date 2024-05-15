@@ -3,18 +3,20 @@
 import User from './user.model.js'
 import { checkUpdate } from '../utils/validator.js'
 import jwt from 'jsonwebtoken'
-import { encrypt, checkPassword, checkOldPassword, hashPassword} from '../utils/validator.js'
-import {generateJwt} from '../utils/jwt.js'
+import { encrypt, checkPassword, checkOldPassword, hashPassword } from '../utils/validator.js'
+import { generateJwt } from '../utils/jwt.js'
+import { upload } from '../utils/multerConfig.js';
 
-export const test = (req, res) =>{
+
+export const test = (req, res) => {
     console.log('Hola chitu')
-    return res.send({message:'Test is running'})
+    return res.send({ message: 'Test is running' })
 }
 
 export const defaultUser = async () => {
     try {
         const userExist = await User.findOne({ username: 'default' })
- 
+
         if (userExist) {
             return console.log('The default user already exists')
         }
@@ -164,7 +166,7 @@ export const updateU = async (req, res) => {
         let { authorization } = req.headers
         let { uid } = jwt.verify(authorization, secretKey)// extrae del token el uid para no ponerlo en la url
         const { oldPassword, newPassword } = data // se agreagan 2 campos por si se quiere cambiar la contraseña que ponga la antigua
-        
+
         let user = await User.findOne({ _id: uid }) // verifica si el uid del token es valido
         if (!user) return res.status(404).send({ message: 'User not found' })
 
@@ -191,7 +193,7 @@ export const updateU = async (req, res) => {
 
         if (!updatedUser) return res.status(401).send({ message: 'User not found and not updated' })
         return res.send({ message: 'Updated user', updatedUser })
-    
+
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: 'Error updating' })
@@ -211,8 +213,8 @@ export const deleteU = async (req, res) => {
         if (confirmation === 'no') {
             return res.status(200).send({ message: 'Deletion cancelled by user' })
         }
-         // verifica si el campo confirmation es si que continue con el proceso de eliminacion al igual que si se pone otra palabra que no sea
-         // si o no que tire el mensaje que solo se puede poner si o no
+        // verifica si el campo confirmation es si que continue con el proceso de eliminacion al igual que si se pone otra palabra que no sea
+        // si o no que tire el mensaje que solo se puede poner si o no
         if (confirmation !== 'yes') {
             return res.status(400).send({ message: 'Please confirm the deletion by providing confirmation: "yes or no"' })
         }
@@ -220,10 +222,38 @@ export const deleteU = async (req, res) => {
         let deletedUser = await User.findOneAndDelete({ _id: uid })
 
         if (!deletedUser) return res.status(404).send({ message: 'Account not found and not deleted' })
-        
+
         return res.send({ message: `Account with username ${deletedUser.username} deleted successfully` })
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: 'Error deleting account' })
     }
 }
+
+// Función para manejar la carga de imágenes
+export const uploadImage = (req, res) => {
+    upload.single('image')(req, res, async (err) => {
+        if (err) {
+            return res.status(400).send({ message: err.message });
+        }
+
+        try {
+            let secretKey = process.env.SECRET_KEY
+            let { authorization } = req.headers
+            let { uid } = jwt.verify(authorization, secretKey)
+            const imagePath = req.file.path;
+
+            // Aquí guardamos la URL de la imagen en la base de datos
+            const user = await User.findByIdAndUpdate(uid, { profileImageUrl: imagePath }, { new: true });
+
+            if (!user) {
+                return res.status(404).send({ message: 'User not found' });
+            }
+
+            return res.send({ message: 'Image uploaded and user updated successfully', user: user });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send({ message: 'Internal server error' });
+        }
+    });
+};

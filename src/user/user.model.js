@@ -31,7 +31,10 @@ const userSchema = Schema({
         uppercase: true,
         enum: ['ADMIN', 'CLIENT','ADMINHOTEL'],
         required: true
-    } 
+    },
+    profileImageUrl: {
+        type: String 
+    }
 })
 
 export default model('user', userSchema)
