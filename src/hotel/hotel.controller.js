@@ -26,13 +26,13 @@ export const registerHotelRequest = async (req, res) => {
     data.applicant = user._id
     const existingHotel = await HotelRequest.findOne({
       $or: [{
-          nameHotel: data.nameHotel
-        },
-        {
-          address: data.address
-        }, {
-          phoneHotel: data.phoneHotel
-        }
+        nameHotel: data.nameHotel
+      },
+      {
+        address: data.address
+      }, {
+        phoneHotel: data.phoneHotel
+      }
       ]
     });
 
@@ -87,14 +87,15 @@ export const registerHotel = async (req, res) => {
         address: hotelRequest.address,
         phoneHotel: hotelRequest.phoneHotel,
         email: hotelRequest.email,
-        admin: req.user.id
+        admin: hotelRequest.applicant
       });
-      
-      await hotel.save();
-      if (req.user.role != "ADMIN") {
 
-        let newAdmin = await User.findByIdAndUpdate({
-          _id: req.user.id
+      await hotel.save();
+      let newAdmin = await User.findById(hotelRequest.applicant)
+      if (newAdmin != "ADMIN") {
+
+        await User.findByIdAndUpdate({
+          _id: hotelRequest.applicant
         }, {
           role: "ADMINHOTEL"
         })
@@ -168,11 +169,11 @@ export const updateH = async (req, res) => {
     }
 
     let updateHotel = await Hotel.findOneAndUpdate({
-        _id: id
-      },
+      _id: id
+    },
       data, {
-        new: true
-      }
+      new: true
+    }
     )
     if (!updateHotel) return res.status(401).send({
       message: 'Hotel not found'

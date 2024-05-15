@@ -30,6 +30,10 @@ export const addReserva = async (req, res) => {
         room.available = 'NODISPONIBLE'
         // Hace la reservacion
         let newReserva = new Reser(data)
+        let diferencia = data.departureDate.getTime() - data.entryDate.getTime();
+        let diferenciaEnDias = diferencia / 1000 / 60 / 60 / 24;
+        data.price
+        
         await newReserva.save()
         await room.save()
 
