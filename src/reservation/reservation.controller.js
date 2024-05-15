@@ -29,7 +29,7 @@ export const addReserva = async (req, res) => {
         // Cambiar la disponibilidad de la habitacion
         room.available = 'NODISPONIBLE'
         // Hace la reservacion
-        
+
         let departureDate = new Date(data.departureDate)
         let entryDate = new Date(data.entryDate)
         let diferencia = departureDate.getTime() - entryDate.getTime();
@@ -51,10 +51,16 @@ export const addReserva = async (req, res) => {
 export const editReserva = async (req, res) => {
     try {
         let data = req.body
+        let room = await Room.findOne({ _id: data.room })
         let { id } = req.params
         let update = checkUpdateReserva(data, id)
         if (!update) return res.status(400).send({ message: 'Have submitted some data that cannot be updated or missing data' })
-        let updateReserva = await Reser.findOneUpdate(
+        let departureDate = new Date(data.departureDate)
+        let entryDate = new Date(data.entryDate)
+        let diferencia = departureDate.getTime() - entryDate.getTime();
+        let diferenciaEnDias = diferencia / 1000 / 60 / 60 / 24;
+        data.total = (diferenciaEnDias * room.price)
+        let updateReserva = await Reser.findOneAndUpdate(
             { _id: id },
             data,
             { new: true }
@@ -62,6 +68,7 @@ export const editReserva = async (req, res) => {
         if (!updateReserva) return res.status(404).send({ message: 'Reservation not found and not upadate' })
         return res.status(200).send({ message: 'Reservation edited successfully', updateReserva });
     } catch (err) {
+        console.error(err)
         return res.status(500).send({ message: 'Error when editing the reservation', err: err });
     }
 }
