@@ -18,6 +18,10 @@ const reservationSchema = Schema({
     departureDate: {
         type: Date,
         required: true
+    },
+    total:{
+        type: Number,
+        required: true
     }
 })    
 
