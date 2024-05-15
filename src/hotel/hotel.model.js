@@ -41,6 +41,11 @@ const hotelSchema = Schema({
         required: true,
         default: 5
     },
+    
+    imageUrl:{
+        type: String,
+        default: 'none'
+    },
 
     admin: {
         type: Schema.Types.ObjectId,
