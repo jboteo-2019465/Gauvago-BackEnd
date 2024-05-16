@@ -250,7 +250,7 @@ export const uploadImage = (req, res) => {
                 return res.status(404).send({ message: 'User not found' });
             }
 
-            return res.send({ message: 'Image uploaded and user updated successfully', user: user });
+            return res.send({ message: 'Image uploaded and user updated successfully', imageUrl: imagePath });
         } catch (error) {
             console.error(error);
             return res.status(500).send({ message: 'Internal server error' });
