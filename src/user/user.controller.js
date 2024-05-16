@@ -230,6 +230,37 @@ export const deleteU = async (req, res) => {
     }
 }
 
+//Obtener
+export const getUser = async (req, res) => {
+    try {
+      let data = await User.find()
+      return res.send({
+        data
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).send({
+        message: 'the information cannot be brought'
+      })
+    }
+  }
+
+  //usuario logeado
+  export const getLoggedUser = async (req, res) => {
+    try {
+        let user = req.user
+        let uid = req.user._id
+        let userLogged = await User.findOne({ _id: uid })
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' })
+        }
+        return res.send({ userLogged })
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send({ message: 'Error getting user' })
+    }
+}
+
 // Función para manejar la carga de imágenes
 export const uploadImage = (req, res) => {
     upload.single('image')(req, res, async (err) => {
