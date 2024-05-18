@@ -1,7 +1,7 @@
 'use strict'
 
 import Category from './category.model.js'
-import {checkUpdateC} from '../utils/validator.js'
+import { checkUpdateC } from '../utils/validator.js'
 
 
 // Crea la categoria defualt
@@ -14,6 +14,7 @@ export const defaultCategory = async (req, res) => {
         }
         let data = {
             nameCategory: 'default',
+            role: 'category'
         }
         let category = new Category(data)
         await category.save()
@@ -26,24 +27,24 @@ export const defaultCategory = async (req, res) => {
 //registra la categoria
 export const registerC = async (req, res) => {
     try {
-      let data = req.body;
-      const existingCategory = await Category.findOne({ nameCategory: data.nameCategory });
+        let data = req.body;
+        const existingCategory = await Category.findOne({ nameCategory: data.nameCategory });
         if (existingCategory) {
             return res.status(400).send({ message: 'Category already exists' });
         }
-      let category = new Category(data);
-      await category.save()
-      return res.send({ message: '¡The Category has been successfully registered!' });
+        let category = new Category(data);
+        await category.save()
+        return res.send({ message: '¡The Category has been successfully registered!' });
     } catch (err) {
-      return res.status(500).send({ message: 'Error registering the Category', err: err });
+        return res.status(500).send({ message: 'Error registering the Category', err: err });
     }
-  }
+}
 
 
-  //Lista las categorias que ya estan registradas
-  export const obtener = async (req, res) => {
+//Lista las categorias que ya estan registradas
+export const obtener = async (req, res) => {
     try {
-        let data = await Category.find()
+        let data = await Category.find({ role: 'category' })
         return res.send({ data })
     } catch (error) {
         console.error(error)
@@ -56,38 +57,44 @@ export const registerC = async (req, res) => {
 export const searchC = async (req, res) => {
     try {
         let { search } = req.body;
-        let category = await Category.find({ nameCategory: { $regex: search, $options: 'i' } });
+        let category = await Category.find({
+            $and: [
+                { nameCategory: { $regex: search, $options: 'i' } },
+                { role: 'category' }
+            ]
+        }    
+        );
 
-        if (!category || category.length === 0) {
-            return res.status(404).send({ message: 'Category not found' });
-        }
+if (!category || category.length === 0) {
+    return res.status(404).send({ message: 'Category not found' });
+}
 
-        return res.send({ message: 'Category found', category });
+return res.send({ message: 'Category found', category });
     } catch (err) {
-        console.error(err);
-        return res.status(500).send({ message: 'Error searching Category' });
-    }
+    console.error(err);
+    return res.status(500).send({ message: 'Error searching Category' });
+}
 }
 
 
 //Actualiza la categoria
-export const updateC = async(req, res)=>{
+export const updateC = async (req, res) => {
     try {
-        let {id} = req.params
+        let { id } = req.params
         let data = req.body
         let update = checkUpdateC(data, id)
-        if(!update) return res.status(400).send({message: 'Have submitted some data that cannot be update or missing data'})
+        if (!update) return res.status(400).send({ message: 'Have submitted some data that cannot be update or missing data' })
         let updateCategory = await Category.findOneAndUpdate(
             { _id: id },
             data,
-            {new: true} 
+            { new: true }
         )
         if (!updateCategory) return res.status(401).send({ message: 'Category not found' })
         return res.send({ message: 'Category', updateCategory })
     } catch (error) {
         console.error(error)
         return res.status(500).send({ message: 'Error updating' })
-        
+
     }
 }
 
@@ -96,7 +103,7 @@ export const updateC = async(req, res)=>{
 export const deleteC = async (req, res) => {
     try {
         const { id } = req.params;
-        
+
         // Eliminar la categoría
         const deletedCategory = await Category.findOneAndDelete({ _id: id });
         if (!deletedCategory) {

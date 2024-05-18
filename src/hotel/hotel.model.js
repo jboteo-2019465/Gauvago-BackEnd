@@ -41,8 +41,8 @@ const hotelSchema = Schema({
         required: true,
         default: 5
     },
-    
-    imageUrl:{
+
+    imageUrl: {
         type: String,
         default: 'none'
     },
@@ -50,6 +50,12 @@ const hotelSchema = Schema({
     admin: {
         type: Schema.Types.ObjectId,
         ref: 'user',
+        required: true
+    },
+
+    features: {
+        type: [Schema.Types.ObjectId],
+        ref: 'category',
         required: true
     }
 
