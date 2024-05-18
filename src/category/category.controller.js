@@ -52,6 +52,16 @@ export const obtener = async (req, res) => {
     }
 }
 
+export const obtenerFeatures = async (req, res) => {
+    try {
+        let data = await Category.find({ role: 'feature' })
+        return res.send({ data })
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({ message: 'the information cannot be brought' })
+    }
+}
+
 
 //Busca la categoria por parametros
 export const searchC = async (req, res) => {
@@ -62,20 +72,41 @@ export const searchC = async (req, res) => {
                 { nameCategory: { $regex: search, $options: 'i' } },
                 { role: 'category' }
             ]
-        }    
+        }
         );
 
-if (!category || category.length === 0) {
-    return res.status(404).send({ message: 'Category not found' });
-}
+        if (!category || category.length === 0) {
+            return res.status(404).send({ message: 'Category not found' });
+        }
 
-return res.send({ message: 'Category found', category });
+        return res.send({ message: 'Category found', category });
     } catch (err) {
-    console.error(err);
-    return res.status(500).send({ message: 'Error searching Category' });
-}
+        console.error(err);
+        return res.status(500).send({ message: 'Error searching Category' });
+    }
 }
 
+export const searchF = async (req, res) => {
+    try {
+        let { search } = req.body;
+        let category = await Category.find({
+            $and: [
+                { nameCategory: { $regex: search, $options: 'i' } },
+                { role: 'feature' }
+            ]
+        }
+        );
+
+        if (!category || category.length === 0) {
+            return res.status(404).send({ message: 'Category not found' });
+        }
+
+        return res.send({ message: 'Category found', category });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send({ message: 'Error searching Category' });
+    }
+}
 
 //Actualiza la categoria
 export const updateC = async (req, res) => {
