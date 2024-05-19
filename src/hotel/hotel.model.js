@@ -53,11 +53,13 @@ const hotelSchema = Schema({
         required: true
     },
 
-    features: {
-        type: [Schema.Types.ObjectId],
-        ref: 'category',
-        required: true
-    }
+    features: [{
+        category: {
+            type: Schema.Types.ObjectId,
+            ref: 'category',
+            required: true
+        }
+    }]
 
 }, {
     versionKey: false

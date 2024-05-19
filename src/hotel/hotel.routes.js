@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteH, denyHotel, getHotelRequest, obtener,  registerHotel,  registerHotelRequest, searchH, test, updateH } from "./hotel.controller.js";
+import { addFeatures, deleteH, denyHotel, getHotelRequest, obtener,  registerHotel,  registerHotelRequest, searchH, test, updateH } from "./hotel.controller.js";
 import { isAdmin, isAdmin_AdminHotel, isHotel, validateJwt } from "../middleware/validate-jwt.js";
 
 const api = Router();
@@ -13,5 +13,6 @@ api.delete('/delete/:id', [validateJwt, isAdmin_AdminHotel], deleteH)
 api.post('/search', searchH)
 api.get('/request/view', [validateJwt, isAdmin], getHotelRequest)
 api.delete('/request/delete', [validateJwt, isAdmin], denyHotel)
+api.put('/add/tag', [validateJwt, isAdmin], addFeatures)
 
 export default api

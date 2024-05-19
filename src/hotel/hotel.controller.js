@@ -3,6 +3,7 @@
 import Hotel from './hotel.model.js'
 import HotelRequest from './hotelRequest.model.js'
 import User from '../user/user.model.js'
+import Category from '../category/category.model.js'
 
 import {
   checkUpdateH
@@ -118,6 +119,38 @@ export const registerHotel = async (req, res) => {
     });
   }
 };
+
+//agregarle etiquetas a los hoteles
+export const addFeatures = async (req, res) => {
+  try {
+    let { category, id } = req.body
+
+    let hotel = await Hotel.findById( id )
+
+    if (!hotel) return res.status(403).send(
+      { message: 'You do not have any hotel' }
+    )
+    
+    let items = await Category.findById(category)
+    if (!items) return res.status(404).send(
+      { message: 'Category not found' }
+    )
+    hotel.features.push({ category: category })
+    
+    await hotel.save()
+    return res.send({ message: 'Has been successfully removed product to the shopping car' })
+
+
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({
+      message: 'Error registering the hotel',
+      err: err
+    });
+  }
+}
+
 
 export const denyHotel = async (req, res) => {
   try {
