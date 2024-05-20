@@ -255,17 +255,21 @@ export const deleteH = async (req, res) => {
 export const searchH = async (req, res) => {
   try {
     let {
-      search
+      search, searchId
     } = req.body;
-    search = search.trim();
+    if (search) {
+      search = search.trim();
+    }
     let hotel = await Hotel.find({
       $or: [
-        {nameHotel: {
-          $regex: search,
-          $options: 'i'
-        }},
         {
-          _id: search,
+          nameHotel: {
+            $regex: search,
+            $options: 'i'
+          }
+        },
+        {
+          _id: searchId,
         }
       ]
     });

@@ -291,4 +291,33 @@ export const uploadImage = (req, res) => {
     });
 };
 
-
+//agregarle etiquetas a los usuarios
+export const addFeatures = async (req, res) => {
+    try {
+      let { category, id } = req.body
+  
+      let user = await User.findById(id)
+  
+      if (!user) return res.status(403).send(
+        { message: 'You do not have any user' }
+      )
+  
+      let items = await Category.findById(category)
+      if (!items) return res.status(404).send(
+        { message: 'Category not found' }
+      )
+      user.features.push({ category: category })
+  
+      await user.save()
+      return res.send({ message: 'Has been successfully removed product to the shopping car' })
+  
+  
+  
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send({
+        message: 'Error registering the usergit ',
+        err: err
+      });
+    }
+  }
