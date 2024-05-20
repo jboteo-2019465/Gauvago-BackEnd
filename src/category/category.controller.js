@@ -44,7 +44,7 @@ export const registerC = async (req, res) => {
 //Lista las categorias que ya estan registradas
 export const obtener = async (req, res) => {
     try {
-        let data = await Category.find({ role: 'category' })
+        let data = await Category.find({ role: 'category' }).populate('nameCategory')
         return res.send({ data })
     } catch (error) {
         console.error(error)
@@ -54,7 +54,7 @@ export const obtener = async (req, res) => {
 
 export const obtenerFeatures = async (req, res) => {
     try {
-        let data = await Category.find({ role: 'feature' })
+        let data = await Category.find({ role: 'feature' }).populate('nameCategory')
         return res.send({ data })
     } catch (error) {
         console.error(error)

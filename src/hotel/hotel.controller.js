@@ -125,18 +125,18 @@ export const addFeatures = async (req, res) => {
   try {
     let { category, id } = req.body
 
-    let hotel = await Hotel.findById( id )
+    let hotel = await Hotel.findById(id)
 
     if (!hotel) return res.status(403).send(
       { message: 'You do not have any hotel' }
     )
-    
+
     let items = await Category.findById(category)
     if (!items) return res.status(404).send(
       { message: 'Category not found' }
     )
     hotel.features.push({ category: category })
-    
+
     await hotel.save()
     return res.send({ message: 'Has been successfully removed product to the shopping car' })
 
@@ -259,10 +259,15 @@ export const searchH = async (req, res) => {
     } = req.body;
     search = search.trim();
     let hotel = await Hotel.find({
-      nameHotel: {
-        $regex: search,
-        $options: 'i'
-      }
+      $or: [
+        {nameHotel: {
+          $regex: search,
+          $options: 'i'
+        }},
+        {
+          _id: search,
+        }
+      ]
     });
 
     if (!hotel || hotel.length === 0) {
