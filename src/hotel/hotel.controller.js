@@ -292,4 +292,16 @@ export const searchH = async (req, res) => {
   }
 }
 
+//Obtener las habitaciones de un hotel
+export const obtenerHabitaciones = async (req, res) => {
+  try {
+    let hotelId = req.body;
+    let data = await Room.find({ hotel: hotelId });
+    return res.send(data);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({ message: 'This information cannot be brought' });
+  }
+};
+
 //Obtener los hoteles mas solicitados
