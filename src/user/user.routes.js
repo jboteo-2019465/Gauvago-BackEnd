@@ -1,5 +1,5 @@
 import express from 'express'
-import { login, registerAd, registerCl, registerHt, test, updateU, deleteU, uploadImage, getUser, getLoggedUser } from './user.controller.js'
+import { login, registerAd, registerCl, registerHt, test, updateU, deleteU, uploadImage, getUser, getLoggedUser, addFeatures } from './user.controller.js'
 import { isAdmin, isHotel, validateJwt } from '../middleware/validate-jwt.js'
 
 
@@ -21,5 +21,8 @@ api.post('/registetHt', [validateJwt, isHotel], registerHt)
 
 //accesos admin
 api.post('/registerAd', [validateJwt, isAdmin], registerAd)
+
+//agregar etiqueta
+api.put('/add/tag', [validateJwt] , addFeatures)
 
 export default api
