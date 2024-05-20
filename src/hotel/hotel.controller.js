@@ -4,6 +4,8 @@ import Hotel from './hotel.model.js'
 import HotelRequest from './hotelRequest.model.js'
 import User from '../user/user.model.js'
 import Category from '../category/category.model.js'
+import { upload } from '../utils/multerConfig.js';
+import fs from 'fs';
 
 import {
   checkUpdateH
@@ -266,6 +268,9 @@ export const searchH = async (req, res) => {
         }},
         {
           _id: search,
+        },
+        {
+          admin: search
         }
       ]
     });
@@ -300,4 +305,83 @@ export const obtenerHabitaciones = async (req, res) => {
   }
 };
 
-//Obtener los hoteles mas solicitados
+// Función para manejar la carga de imágenes
+const saveImageUrls = async (idHotel, imageUrls) => {
+  try {
+      const hotel = await Hotel.findById(idHotel);
+      if (!hotel) {
+          throw new Error('Hotel not found');
+      }
+      hotel.imageUrls = [...hotel.imageUrls, ...imageUrls];
+      await hotel.save();
+      console.log(`Image URLs saved for hotel ${idHotel}: ${imageUrls.join(', ')}`);
+  } catch (error) {
+      console.error(error);
+  }
+};
+
+/*
+export const handleImageUpload = async (req, res) => {
+  try {
+      const { id } = req.params;
+
+      if (!req.files || req.files.length === 0) {
+          return res.status(400).send({ message: 'No images uploaded' });
+      }
+
+      const imageUrls = [];
+      req.files.forEach(file => {
+          const imagePath = path.join('images', id, file.filename);
+          const imageData = fs.readFileSync(file.path);
+          const base64Image = Buffer.from(imageData).toString('base64');
+          const imageUrl = `data:${file.mimetype};base64,${base64Image}`;
+          imageUrls.push(imageUrl);
+      });
+
+      const hotel = await Hotel.findByIdAndUpdate(id, { imageUrls: imageUrls }, { new: true });
+
+      if (!hotel) {
+          return res.status(404).send({ message: 'Hotel not found' });
+      }
+
+      return res.send({ message: 'Images uploaded and hotel updated successfully', imageUrls });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).send({ message: 'Internal server error' });
+  }
+};
+*/
+
+export const handleImageUpload = (req, res) => {
+  upload.array('image', 5)(req, res, async (err) => {
+    if (err) {
+      return res.status(400).send({ message: err.message });
+    }
+
+    try {
+      const { id } = req.params;
+      const imageUrls = [];
+
+      
+      await Promise.all(req.files.map(async (file) => {
+        const imageData = await fs.promises.readFile(file.path);
+        const base64Image = Buffer.from(imageData).toString('base64');
+        const imageUrl = `data:${file.mimetype};base64,${base64Image}`;
+        imageUrls.push(imageUrl);
+      }));
+
+      console.log('Imagen URLs generadas:', imageUrls);
+
+      const hotel = await Hotel.findByIdAndUpdate(id, { imageUrl: imageUrls }, { new: true });
+
+      if (!hotel) {
+        return res.status(404).send({ message: 'Hotel no encontrado' });
+      }
+
+      return res.send({ message: 'Imagen(es) subida(s) y hotel actualizado con éxito', imageUrls });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+  });
+};

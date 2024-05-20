@@ -51,8 +51,8 @@ const hotelSchema = Schema({
     },
 
     imageUrl: {
-        type: String,
-        default: 'none'
+        type: [String],
+        default: []
     },
 
     admin: {
