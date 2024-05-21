@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken'
 import { encrypt, checkPassword, checkOldPassword, hashPassword } from '../utils/validator.js'
 import { generateJwt } from '../utils/jwt.js'
 import { upload } from '../utils/multerConfig.js';
+import fs from 'fs';
 
 
 export const test = (req, res) => {
@@ -233,20 +234,20 @@ export const deleteU = async (req, res) => {
 //Obtener
 export const getUser = async (req, res) => {
     try {
-      let data = await User.find()
-      return res.send({
-        data
-      })
+        let data = await User.find()
+        return res.send({
+            data
+        })
     } catch (error) {
-      console.error(error)
-      return res.status(500).send({
-        message: 'the information cannot be brought'
-      })
+        console.error(error)
+        return res.status(500).send({
+            message: 'the information cannot be brought'
+        })
     }
-  }
+}
 
-  //usuario logeado
-  export const getLoggedUser = async (req, res) => {
+//usuario logeado
+export const getLoggedUser = async (req, res) => {
     try {
         let uid = req.user._id
         let userLogged = await User.findOne({ _id: uid })
@@ -268,22 +269,56 @@ export const uploadImage = (req, res) => {
         }
 
         try {
-            let secretKey = process.env.SECRET_KEY
-            let { authorization } = req.headers
-            let { uid } = jwt.verify(authorization, secretKey)
-            const imagePath = req.file.path;
+            const { authorization } = req.headers;
+            const secretKey = process.env.SECRET_KEY;
+            const { uid } = jwt.verify(authorization, secretKey);
+            const imageData = fs.readFileSync(req.file.path);
+            const base64Image = Buffer.from(imageData).toString('base64');
+            const imageUrl = `data:${req.file.mimetype};base64,${base64Image}`;
 
-            // Aquí guardamos la URL de la imagen en la base de datos
-            const user = await User.findByIdAndUpdate(uid, { profileImageUrl: imagePath }, { new: true });
+            const user = await User.findByIdAndUpdate(uid, { profileImageUrl: imageUrl }, { new: true });
 
             if (!user) {
                 return res.status(404).send({ message: 'User not found' });
             }
 
-            return res.send({ message: 'Image uploaded and user updated successfully', imageUrl: imagePath });
+            return res.send({ message: 'Image uploaded and user updated successfully', imageUrl });
         } catch (error) {
             console.error(error);
             return res.status(500).send({ message: 'Internal server error' });
         }
     });
 };
+
+
+
+//agregarle etiquetas a los usuarios
+export const addFeatures = async (req, res) => {
+    try {
+      let { category, id } = req.body
+  
+      let user = await User.findById(id)
+  
+      if (!user) return res.status(403).send(
+        { message: 'You do not have any user' }
+      )
+  
+      let items = await Category.findById(category)
+      if (!items) return res.status(404).send(
+        { message: 'Category not found' }
+      )
+      user.features.push({ category: category })
+  
+      await user.save()
+      return res.send({ message: 'Has been successfully removed product to the shopping car' })
+  
+  
+  
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send({
+        message: 'Error registering the usergit ',
+        err: err
+      });
+    }
+  }

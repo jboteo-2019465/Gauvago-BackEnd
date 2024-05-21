@@ -34,7 +34,14 @@ const userSchema = Schema({
     },
     profileImageUrl: {
         type: String 
-    }
+    },
+    features: [{
+        category: {
+            type: Schema.Types.ObjectId,
+            ref: 'category',
+            required: true
+        }
+    }]
 })
 
 export default model('user', userSchema)

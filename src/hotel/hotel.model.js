@@ -9,6 +9,9 @@ const hotelSchema = Schema({
         type: String,
         required: true
     },
+    slogan:{
+        type: String
+    },
 
     description: {
         type: String,
@@ -19,6 +22,11 @@ const hotelSchema = Schema({
         type: String,
         required: true,
         unique: true
+    },
+    department:{
+        type: Schema.Types.ObjectId,
+        ref: 'department',
+        required: true
     },
 
     phoneHotel: {
@@ -41,17 +49,25 @@ const hotelSchema = Schema({
         required: true,
         default: 5
     },
-    
-    imageUrl:{
-        type: String,
-        default: 'none'
+
+    imageUrl: {
+        type: [String],
+        default: []
     },
 
     admin: {
         type: Schema.Types.ObjectId,
         ref: 'user',
         required: true
-    }
+    },
+
+    features: [{
+        category: {
+            type: Schema.Types.ObjectId,
+            ref: 'category',
+            required: true
+        }
+    }]
 
 }, {
     versionKey: false
