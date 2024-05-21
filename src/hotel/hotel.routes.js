@@ -9,7 +9,7 @@ api.post('/register',[validateJwt, isAdmin], registerHotel)
 api.post('/request/register',validateJwt, registerHotelRequest)
 api.get('/obtener', obtener)
 api.post('/imagenes/:id', handleImageUpload);
-api.post('/obtenerHabitaciones', obtenerHabitaciones)
+api.post('/obtenerHabitaciones/:id', obtenerHabitaciones)
 api.put('/update/:id', [validateJwt, isHotel], updateH)
 api.delete('/delete/:id', [validateJwt, isAdmin_AdminHotel], deleteH)
 api.post('/search', searchH)

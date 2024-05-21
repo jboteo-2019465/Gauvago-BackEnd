@@ -19,7 +19,8 @@ const hotelSchema = Schema({
     },
     hotel:{
         type: Schema.Types.ObjectId,
-        ref: 'hotel'
+        ref: 'hotel',
+        required: true
     },
     available:{
         type: String,

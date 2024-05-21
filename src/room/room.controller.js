@@ -47,19 +47,47 @@ export const deleteR = async (req, res) => {
 //busca por parametros las habitaciones
 export const searchR = async (req, res) => {
   try {
-    let { search } = req.body;
-    let room = await Room.find({ nameRoom: { $regex: search, $options: 'i' } });
-
-    if (!room || room.length === 0) {
-      return res.status(404).send({ message: 'Room not found' });
+    let { search, searchId } = req.body;
+    if (search) {
+      search = search.trim();
     }
 
-    return res.send({ message: 'Room found', room });
+    let rooms;
+
+    if (search && searchId) {
+      // Buscar por nombre de hotel (insensible a mayúsculas y minúsculas) o por admin o por ID
+      rooms = await Room.find({
+        $or: [
+          { nameRoom: { $regex: search, $options: 'i' } },
+          { hotel: searchId },
+          { _id: searchId }
+        ]
+      }).select('-__v'); // Excluir el campo __v
+    } else if (search) {
+      // Buscar solo por nombre de hotel (insensible a mayúsculas y minúsculas)
+      rooms = await Room.find({ nameRoom: { $regex: search, $options: 'i' } }).select('-__v');
+    } else if (searchId) {
+      // Buscar solo por admin o por ID
+      rooms = await Room.find({
+        $or: [
+          { hotel: searchId },
+          { _id: searchId }
+        ]
+      }).select('-__v');
+    } else {
+      return res.status(400).send({ message: 'No search parameters provided' });
+    }
+
+    if (!rooms || rooms.length === 0) {
+      return res.status(404).send({ message: 'Rooms not found' });
+    }
+
+    return res.send({ message: 'Rooms found', rooms });
   } catch (err) {
     console.error(err);
-    return res.status(500).send({ message: 'Error searching Room' });
+    return res.status(500).send({ message: 'Error searching rooms' });
   }
-}
+};
 
 
 //actualiza la habitacion
@@ -85,3 +113,5 @@ export const update = async (req, res) => {
     return res.status(500).send({ message: 'Error searching Room' });
   }
 }
+
+//Buscar room de un hotel
