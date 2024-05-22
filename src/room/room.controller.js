@@ -1,6 +1,6 @@
 'use strict'
 
-import {checkUpdateH} from '../utils/validator.js'
+import { checkUpdateH } from '../utils/validator.js'
 import Room from './room.model.js'
 
 
@@ -96,11 +96,11 @@ export const update = async (req, res) => {
     let { id } = req.params
     let data = req.body
     if (!checkUpdateH(data, id)) {
-      return res.status(400).send({message: 'Have submitted some data that cannot be updated or missing data'});
+      return res.status(400).send({ message: 'Have submitted some data that cannot be updated or missing data' });
     }
 
     let updateRoom = await Room.findOneAndUpdate(
-      { _id: id }, 
+      { _id: id },
       data,
       { new: true }
     )
@@ -113,5 +113,6 @@ export const update = async (req, res) => {
     return res.status(500).send({ message: 'Error searching Room' });
   }
 }
+
 
 //Buscar room de un hotel

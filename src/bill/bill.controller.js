@@ -99,10 +99,37 @@ export const printBill = async (req, res) => {
         // Finalizar documento
         print.end();
         res.sendFile(filePath);
-        await Bill.findOneAndDelete({ client: uid })
+
         return res.send({ message: "printed!" })
     } catch (err) {
         console.log(err)
         return res.status(500).send({ message: "Error on the bill printing" })
+    }
+}
+
+//revisar que un hotel este disponible
+export const checkAvailability = async (req, res) => {
+    try {
+        let reservations = await Bill.find();
+        let currentDate = new Date();
+        let availableRooms = [];
+
+        for (let reservation of reservations) {
+            let entryDate = new Date(reservation.entryDate);
+            let departureDate = new Date(reservation.departureDate);
+
+            if (currentDate > entryDate && currentDate < departureDate) {
+                let room = await Room.findOneAndUpdate(
+                    { _id: reservation.room },
+                    room.available = 'DISPONIBLE',
+                    { new: true }
+                )
+            }
+        }
+
+        return res.send({ message: 'Rooms available', availableRooms });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send({ message: 'Error searching Room' });
     }
 }
