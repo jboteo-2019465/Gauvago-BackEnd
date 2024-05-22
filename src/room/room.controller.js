@@ -116,3 +116,28 @@ export const update = async (req, res) => {
 
 
 //Buscar room de un hotel
+//Subida de imagenes
+export const handleImageUpload = (req, res) => {
+  upload.single('image')(req, res, async (err) => {
+      if (err) {
+          return res.status(400).send({ message: err.message });
+      }
+
+      try {
+          const imageData = fs.readFileSync(req.file.path);
+          const base64Image = Buffer.from(imageData).toString('base64');
+          const imageUrl = `data:${req.file.mimetype};base64,${base64Image}`;
+
+          const room = await Room.findByIdAndUpdate(uid, { imageUrl: imageUrl }, { new: true });
+
+          if (!room) {
+              return res.status(404).send({ message: 'Room not found' });
+          }
+
+          return res.send({ message: 'Image uploaded and room updated successfully', imageUrl });
+      } catch (error) {
+          console.error(error);
+          return res.status(500).send({ message: 'Internal server error' });
+      }
+  });
+};
