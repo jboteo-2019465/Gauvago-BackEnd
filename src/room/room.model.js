@@ -23,8 +23,7 @@ const hotelSchema = Schema({
         required: true
     },
     imageUrl: {
-        type: [String],
-        default: []
+        type: String
     },
 
     
