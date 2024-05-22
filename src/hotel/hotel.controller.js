@@ -350,35 +350,34 @@ export const handleImageUpload = async (req, res) => {
 */
 
 export const handleImageUpload = (req, res) => {
-  upload.array('image', 5)(req, res, async (err) => {
-    if (err) {
-      return res.status(400).send({ message: err.message });
-    }
-
-    try {
-      const { id } = req.params;
-      const imageUrls = []; // Almacenar las URLs completas de las imágenes
-
-      // Construye las URLs completas de las imágenes recién cargadas
-      await Promise.all(req.files.map(async (file) => {
-        const imageUrl = `${req.protocol}://${req.get('host')}/${file.path}`;
-        imageUrls.push(imageUrl);
-      }));
-
-      console.log('Imagen URLs generadas:', imageUrls);
-
-      // Actualiza el documento del hotel con las nuevas URLs de las imágenes
-      const hotel = await Hotel.findByIdAndUpdate(id, { imageUrl: imageUrls }, { new: true });
-
-      if (!hotel) {
-        return res.status(404).send({ message: 'Hotel no encontrado' });
+  upload.single('image')(req, res, async (err) => {
+      if (err) {
+          return res.status(400).send({ message: err.message });
       }
 
-      return res.send({ message: 'Imagen(es) subida(s) y hotel actualizado con éxito', imageUrls });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).send({ message: 'Error interno del servidor' });
-    }
+      try {
+          const { id } = req.params;
+          const imageData = fs.readFileSync(req.file.path);
+          const base64Image = Buffer.from(imageData).toString('base64');
+          const imageUrl = `data:${req.file.mimetype};base64,${base64Image}`;
+
+          // Leer el hotel existente
+          const hotel = await Hotel.findById(id);
+
+          if (!hotel) {
+              return res.status(404).send({ message: 'Hotel not found' });
+          }
+
+          // Agregar la nueva imagen al array imageUrl
+          hotel.imageUrl.push(imageUrl);
+          
+          // Guardar el hotel actualizado
+          await hotel.save();
+
+          return res.send({ message: 'Image uploaded and hotel updated successfully', imageUrl });
+      } catch (error) {
+          console.error(error);
+          return res.status(500).send({ message: 'Internal server error' });
+      }
   });
 };
-
