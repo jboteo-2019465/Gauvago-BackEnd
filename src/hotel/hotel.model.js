@@ -23,12 +23,6 @@ const hotelSchema = Schema({
         required: true,
         unique: true
     },
-    department:{
-        type: Schema.Types.ObjectId,
-        ref: 'department',
-        required: true
-    },
-
     phoneHotel: {
         type: String,
         minLength: 8,
