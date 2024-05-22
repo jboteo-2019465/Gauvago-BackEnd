@@ -11,6 +11,7 @@ api.post('/searchC', searchC)
 api.post('/search/features', searchF)
 
 
+
 //Solo el administrador
 api.post('/registerC',[validateJwt, isAdmin], registerC)
 api.put('/updateC/:id',[validateJwt, isAdmin], updateC)

@@ -4,53 +4,39 @@ import Category from './category.model.js'
 import { checkUpdateC } from '../utils/validator.js'
 
 
-// Crea la categoria defualt
 export const defaultCategory = async (req, res) => {
     try {
-        const categoryExist = await Category.findOne({ nameCategory: 'default' })
+        const defaultCategoryExist = await Category.findOne({ nameCategory: 'default' });
 
-        if (categoryExist) {
-            return console.log('Category default', categoryExist)
+        if (defaultCategoryExist) {
+            console.log('Default category already exists', defaultCategoryExist);
+        } else {
+            let defaultData = {
+                nameCategory: 'default',
+                role: 'category'
+            };
+            let defaultCategory = new Category(defaultData);
+            await defaultCategory.save();
+           console.log('Default category created', defaultCategory);
         }
-        let data = {
-            nameCategory: 'default',
-            role: 'category'
-        }
-        let category = new Category(data)
-        await category.save()
-        console.log(data)
-    } catch (err) {
-        console.error(err)
-    }
-}
 
-//Registro de departamentos por defecto
-export const CategoriasDefault = async (req, res) => {
-    try {
-        // Lista de nombres de departamentos
-        const categoryNames = [
-            'Guatemala', 'Peten', 'Quetzaltenango', 'Retalhuleu', 'Sacatepequez', 
-            'San Marcos'
+        const hotelCategories = [
+            'Hotel de Lujo',
+            'Hotel economico',
+            'Hotel Resort',
+            'Hotel VIP',
+            'Hotel Normal'
         ];
 
-        // Buscar los departamentos existentes en la base de datos
-        const existingCategory = await Category.find({ nameCategory: { $in: departmentNames } });
+        const existingHotelCategories = await Category.find({ nameCategory: { $in: hotelCategories } });
+        const existingHotelCategoryNames = new Set(existingHotelCategories.map(cat => cat.nameCategory));
+        const newHotelCategories = hotelCategories.filter(name => !existingHotelCategoryNames.has(name));
+        const newHotelCategoryPromises = newHotelCategories.map(name => Category.create({ nameCategory: name, role: 'category' }));
+        await Promise.all(newHotelCategoryPromises);
 
-        // Crear un conjunto de nombres de departamentos existentes
-        const existingDepartmentNames = new Set(existingDepartments.map(dep => dep.nameDepartment));
-
-        // Filtrar los nombres de departamentos que no existen y crearlos
-        const newDepartments = departmentNames.filter(name => !existingDepartmentNames.has(name));
-
-        // Crear los nuevos departamentos
-        const newDepartmentPromises = newDepartments.map(name => Department.create({ nameDepartment: name }));
-
-        // Esperar a que se creen los nuevos departamentos
-        await Promise.all(newDepartmentPromises);
-
-        console.log("Departamentos registrados correctamente.");
+        console.log('Hotel categories created');
     } catch (err) {
-        console.error(err);
+       console.error(err)
     }
 }
 
