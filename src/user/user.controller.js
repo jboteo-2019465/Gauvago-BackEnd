@@ -249,10 +249,9 @@ export const getUser = async (req, res) => {
 //usuario logeado
 export const getLoggedUser = async (req, res) => {
     try {
-        let user = req.user
         let uid = req.user._id
         let userLogged = await User.findOne({ _id: uid })
-        if (!user) {
+        if (!userLogged) {
             return res.status(404).send({ message: 'User not found' })
         }
         return res.send({ userLogged })

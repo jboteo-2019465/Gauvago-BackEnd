@@ -6,6 +6,7 @@ const api = Router();
 
 api.post('/registerR', [validateJwt], registerR)
 api.get('/obtener', obtener)
+api.post('/searchR', searchR)
 api.delete('/deleteR/:id',[validateJwt, isAdmin], deleteR)
 api.post('/searchR', searchR)
 api.put('/update/:id',[validateJwt, isAdmin], update)

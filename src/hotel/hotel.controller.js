@@ -4,6 +4,7 @@ import Hotel from './hotel.model.js'
 import HotelRequest from './hotelRequest.model.js'
 import User from '../user/user.model.js'
 import Category from '../category/category.model.js'
+import Room from '../room/room.model.js'
 import { upload } from '../utils/multerConfig.js';
 import fs from 'fs';
 
@@ -257,52 +258,55 @@ export const deleteH = async (req, res) => {
 //Busca el hotel por parametros
 export const searchH = async (req, res) => {
   try {
-    let {
-      search, searchId
-    } = req.body;
+    let { search, searchId } = req.body;
     if (search) {
       search = search.trim();
     }
-    let hotel = await Hotel.find({
-      $or: [
-        {
-          _id: search,
-        },
-        {
-          admin: search,
-          nameHotel: {
-            $regex: search,
-            $options: 'i'
-          }
-        },
-        {
-          _id: searchId,
-        }
-      ]
-    });
 
-    if (!hotel || hotel.length === 0) {
-      return res.status(404).send({
-        message: 'Hotal not found'
-      });
+    let hotels;
+
+    if (search && searchId) {
+      // Buscar por nombre de hotel (insensible a mayúsculas y minúsculas) o por admin o por ID
+      hotels = await Hotel.find({
+        $or: [
+          { nameHotel: { $regex: search, $options: 'i' } },
+          { admin: searchId },
+          { _id: searchId }
+        ]
+      }).select('-__v'); // Excluir el campo __v
+    } else if (search) {
+      // Buscar solo por nombre de hotel (insensible a mayúsculas y minúsculas)
+      hotels = await Hotel.find({ nameHotel: { $regex: search, $options: 'i' } }).select('-__v');
+    } else if (searchId) {
+      // Buscar solo por admin o por ID
+      hotels = await Hotel.find({
+        $or: [
+          { admin: searchId },
+          { _id: searchId }
+        ]
+      }).select('-__v');
+    } else {
+      return res.status(400).send({ message: 'No search parameters provided' });
     }
 
-    return res.send({
-      message: 'Hotal found',
-      hotel
-    });
+    if (!hotels || hotels.length === 0) {
+      return res.status(404).send({ message: 'Hotels not found' });
+    }
+
+    return res.send({ message: 'Hotels found', hotels });
   } catch (err) {
     console.error(err);
-    return res.status(500).send({
-      message: 'Error searching Hotel'
-    });
+    return res.status(500).send({ message: 'Error searching hotels' });
   }
-}
+};
+
+
+
 
 //Obtener las habitaciones de un hotel
 export const obtenerHabitaciones = async (req, res) => {
   try {
-    let hotelId = req.body;
+    let hotelId = req.params;
     let data = await Room.find({ hotel: hotelId });
     return res.send(data);
   } catch (err) {
@@ -312,19 +316,6 @@ export const obtenerHabitaciones = async (req, res) => {
 };
 
 // Función para manejar la carga de imágenes
-const saveImageUrls = async (idHotel, imageUrls) => {
-  try {
-      const hotel = await Hotel.findById(idHotel);
-      if (!hotel) {
-          throw new Error('Hotel not found');
-      }
-      hotel.imageUrls = [...hotel.imageUrls, ...imageUrls];
-      await hotel.save();
-      console.log(`Image URLs saved for hotel ${idHotel}: ${imageUrls.join(', ')}`);
-  } catch (error) {
-      console.error(error);
-  }
-};
 
 /*
 export const handleImageUpload = async (req, res) => {
@@ -366,18 +357,17 @@ export const handleImageUpload = (req, res) => {
 
     try {
       const { id } = req.params;
-      const imageUrls = [];
+      const imageUrls = []; // Almacenar las URLs completas de las imágenes
 
-      
+      // Construye las URLs completas de las imágenes recién cargadas
       await Promise.all(req.files.map(async (file) => {
-        const imageData = await fs.promises.readFile(file.path);
-        const base64Image = Buffer.from(imageData).toString('base64');
-        const imageUrl = `data:${file.mimetype};base64,${base64Image}`;
+        const imageUrl = `${req.protocol}://${req.get('host')}/${file.path}`;
         imageUrls.push(imageUrl);
       }));
 
       console.log('Imagen URLs generadas:', imageUrls);
 
+      // Actualiza el documento del hotel con las nuevas URLs de las imágenes
       const hotel = await Hotel.findByIdAndUpdate(id, { imageUrl: imageUrls }, { new: true });
 
       if (!hotel) {
@@ -391,3 +381,4 @@ export const handleImageUpload = (req, res) => {
     }
   });
 };
+

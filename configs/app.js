@@ -10,7 +10,6 @@ import hotelRoutes from '../src/hotel/hotel.routes.js'
 import roomRoutes from '../src/room/room.routes.js'
 import categoryRoutes from '../src/category/category.routes.js'
 import userRoutes from '../src/user/user.routes.js'
-import departmentRoutes from '../src/department/department.routes.js'
 import eventRoutes from '../src/events/event.routes.js'
 import reviewRoutes from '../src/reviews/review.routes.js'
 import reservRoutes from '../src/reservation/reservation.routes.js'
@@ -32,7 +31,6 @@ const app = express()
      app.use('/room', roomRoutes)
      app.use('/category', categoryRoutes)
      app.use('/user', userRoutes)
-     app.use('/department', departmentRoutes)
      app.use('/event', eventRoutes)
      app.use('/review', reviewRoutes)
      app.use('/reservation', reservRoutes)

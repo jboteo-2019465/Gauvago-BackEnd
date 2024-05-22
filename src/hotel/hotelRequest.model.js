@@ -9,7 +9,6 @@ const hotelRequestSchema = Schema({
         type: String,
         required: true
     },
-    
     slogan:{
         type: String
     },
