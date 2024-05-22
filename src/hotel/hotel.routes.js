@@ -6,7 +6,7 @@ const api = Router();
 
 api.get('/test', test)
 api.post('/register',[validateJwt, isAdmin], registerHotel)
-api.post('/request/register',validateJwt, registerHotelRequest)
+api.post('/request/register',[validateJwt, isAdmin], registerHotelRequest)
 api.get('/obtener', obtener)
 api.post('/imagenes/:id', handleImageUpload);
 api.post('/obtenerHabitaciones/:id', obtenerHabitaciones)
