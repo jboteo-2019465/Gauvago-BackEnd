@@ -9,6 +9,10 @@ const hotelRequestSchema = Schema({
         type: String,
         required: true
     },
+    
+    slogan:{
+        type: String
+    },
 
     description: {
         type: String,
@@ -28,10 +32,20 @@ const hotelRequestSchema = Schema({
         required: true,
         unique: true
     },
+    department:{
+        type: Schema.Types.ObjectId,
+        ref: 'department',
+        required: true
+    },
 
     email: {
         type: String,
         required: true
+    },
+
+    imageUrl: {
+        type: [String],
+        default: []
     },
 
     stars: {

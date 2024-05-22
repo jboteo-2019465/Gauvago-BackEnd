@@ -24,6 +24,37 @@ export const defaultCategory = async (req, res) => {
     }
 }
 
+//Registro de departamentos por defecto
+export const CategoriasDefault = async (req, res) => {
+    try {
+        // Lista de nombres de departamentos
+        const categoryNames = [
+            'Guatemala', 'Peten', 'Quetzaltenango', 'Retalhuleu', 'Sacatepequez', 
+            'San Marcos'
+        ];
+
+        // Buscar los departamentos existentes en la base de datos
+        const existingCategory = await Category.find({ nameCategory: { $in: departmentNames } });
+
+        // Crear un conjunto de nombres de departamentos existentes
+        const existingDepartmentNames = new Set(existingDepartments.map(dep => dep.nameDepartment));
+
+        // Filtrar los nombres de departamentos que no existen y crearlos
+        const newDepartments = departmentNames.filter(name => !existingDepartmentNames.has(name));
+
+        // Crear los nuevos departamentos
+        const newDepartmentPromises = newDepartments.map(name => Department.create({ nameDepartment: name }));
+
+        // Esperar a que se creen los nuevos departamentos
+        await Promise.all(newDepartmentPromises);
+
+        console.log("Departamentos registrados correctamente.");
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
 //registra la categoria
 export const registerC = async (req, res) => {
     try {

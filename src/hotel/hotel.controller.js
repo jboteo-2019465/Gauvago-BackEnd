@@ -90,7 +90,8 @@ export const registerHotel = async (req, res) => {
         address: hotelRequest.address,
         phoneHotel: hotelRequest.phoneHotel,
         email: hotelRequest.email,
-        admin: hotelRequest.applicant
+        admin: hotelRequest.applicant,
+        department: hotelRequest.department
       });
 
       await hotel.save();

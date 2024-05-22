@@ -21,6 +21,10 @@ const hotelSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'hotel'
     },
+    imageUrl: {
+        type: [String],
+        default: []
+    },
     available:{
         type: String,
         required: true,
